@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input id="fileInput" type="file" />
+  <input id="filesInput" type="file" multiple>
+  <label>
+    多字段上传:<input id="multiple-files" type="file" multiple />
+  </label>
+  <script>
+    const fileInput = document.querySelector('#fileInput');
+    const multipleInput = document.querySelector("#filesInput");
+    const multipleFiles = document.querySelector("#multiple-files");
+
+    async function formData() {
+      const data = new FormData();
+      data.set('name', 'cheng');
+      data.set('age', 18);
+      data.set('file', fileInput.files[0]);
+
+      const res = await fetch('http://localhost:3000/upload', {
+        body: data,
+        method: 'post'
+      });
+      console.log(res);
+    }
+    fileInput.onchange = formData;
+
+    async function formDataMultiple() {
+      const data = new FormData();
+      data.set('name', 'cheng');
+      data.set('age', 18);
+      [...multipleInput.files].forEach(item => {
+        data.append('files', item)
+      })
+
+      const res = await fetch('http://localhost:3000/uploads', {
+        method: 'post',
+        body: data
+      });
+      console.log(res);
+    }
+    multipleInput.onchange = formDataMultiple;
+
+    async function multipleFilesFn() {
+      const data = new FormData();
+      data.set('name', 'cheng');
+      data.set('age', 18);
+
+      data.append("file1", multipleFiles.files[0]);
+      data.append("file1", multipleFiles.files[1]);
+      data.append("file2", multipleFiles.files[2]);
+      data.append("file2", multipleFiles.files[3]);
+
+      const res = await fetch("http://localhost:3000/multer-uploads", {
+        method: "post",
+        body: data
+      });
+
+      console.log(res);
+    }
+    multipleFiles.onchange = multipleFilesFn;
+
+  </script>
+</body>
+
+</html>
