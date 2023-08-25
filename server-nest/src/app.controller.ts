@@ -3,24 +3,15 @@ import {
   Controller,
   Get,
   Inject,
-  Logger,
   Post,
-  UploadedFile,
-  UploadedFiles,
-  UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Demo } from './app.dto';
-import {
-  FileFieldsInterceptor,
-  FileInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
 
 @Controller()
 export class AppController {
-  @Inject(AppService)
+  @Inject()
   private readonly appService: AppService;
 
   @Inject('userInfo')
