@@ -1,2 +1,2 @@
 # demo-repository
-Save someting demo code
+Save someting demo project

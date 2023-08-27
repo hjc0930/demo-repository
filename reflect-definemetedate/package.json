@@ -1,0 +1,17 @@
+{
+  "name": "reflect-definemetedate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^4.9.5"
+  }
+}

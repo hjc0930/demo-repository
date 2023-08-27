@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022", "esnext.decorators", "dom"],
+    "module": "ESNext",
+    // "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+    // "emitDecoratorMetadata": true
+    // "experimentalDecorators": true
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules"]
+}
