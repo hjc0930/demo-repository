@@ -1,27 +1,56 @@
-// Symbol.metadata ??= Symbol("Symbol.metadata");
+type Class<T = any> = new (...args: any[]) => T;
 
-interface Context {
-  name: string;
-  metadata: Record<PropertyKey, unknown>;
+class Container {
+  private services: Map<string, Class> = new Map();
+
+  register<T>(serviceIdentifier: string, target: Class<T>) {
+    this.services.set(serviceIdentifier, target);
+  }
+
+  resolve<T>(serviceIdentifier: string): T {
+    const target = this.services.get(serviceIdentifier);
+    if (!target) {
+      throw new Error(`Service not registered: ${serviceIdentifier}`);
+    }
+
+    const dependencies = Reflect.getMetadata("design:paramtypes", target) || [];
+    const resolvedDependencies = dependencies.map((dep: Class) =>
+      this.resolve(dep.name)
+    );
+    return new target(...resolvedDependencies);
+  }
 }
 
-function setMetadata(_target: any, context: Context) {
-  // console.log({ context });
+// 装饰器工厂函数
+function Injectable(target: Class) {
+  // 可以在这里完成对该类的初始化操作
 }
 
-class SomeClass {
-  @setMetadata
-  foo = 123;
+// 在类上使用@Injectable装饰器，表示该类可被注入到容器中
+@Injectable
+class UserService {
+  constructor() {}
 
-  @setMetadata
-  accessor bar = "hello!";
-
-  @setMetadata
-  baz() {}
+  getUser() {
+    return "User";
+  }
 }
 
-const ourMetadata = SomeClass[Symbol.metadata];
+@Injectable
+class LoggerService {
+  constructor() {}
 
-console.log(SomeClass);
+  log(message: string) {
+    console.log(`[Logger]: ${message}`);
+  }
+}
 
-// console.log(JSON.stringify(ourMetadata));
+const container = new Container();
+container.register("userService", UserService);
+container.register("loggerService", LoggerService);
+
+const userService = container.resolve<UserService>("userService");
+const loggerService = container.resolve<LoggerService>("loggerService");
+
+console.log(userService.getUser()); // 输出: User
+loggerService.log("Logging message"); // 输出: [Logger]: Logging message
