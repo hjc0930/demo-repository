@@ -1,57 +1,67 @@
-import { createContext, memo, useContext, useMemo, useState } from "react";
+import { createContext } from "react";
+import { Store, createStore } from "./stores/createStore";
+import useAppStore from "./stores/useAppStores";
 
-const AContext = createContext<any>(null);
+export type QueryState = {
+  name?: string;
+  team?: string;
+  age?: number;
+  score?: string;
+};
 
-const Child1 = memo(() => {
-  const { num } = useContext(AContext);
+export const AppContext = createContext<Store<QueryState> | null>(null);
 
-  console.log("Child1 Render");
+const initState: QueryState = {
+  name: "JiaCheng",
+  age: 24,
+};
+const store = createStore(initState);
+
+const Child1 = () => {
+  const [state, setState] = useAppStore((state) => ({ name: state.name }));
 
   return (
     <div>
-      Child1
-      <h1>{num}</h1>
+      <h1
+        onClick={() => {
+          setState({
+            name: "2222",
+          });
+        }}
+      >
+        Child1
+      </h1>
+      <p>{state.name}</p>
     </div>
-  );
-});
-
-const Child2 = memo(() => {
-  const { theme } = useContext(AContext);
-
-  console.log("Child2 Render");
-  return (
-    <div>
-      Child2
-      <h1>{theme}</h1>
-    </div>
-  );
-});
-
-const App = () => {
-  const [num, setNum] = useState(0);
-  const [theme] = useState(0);
-
-  console.log(Child2);
-
-  return (
-    <>
-      <button onClick={() => setNum((val) => val + 1)}>Add Num</button>
-      <AContext.Provider value={{ num, theme }}>
-        {useMemo(
-          () => (
-            <Child1 />
-          ),
-          [num]
-        )}
-        {useMemo(
-          () => (
-            <Child2 />
-          ),
-          [theme]
-        )}
-      </AContext.Provider>
-    </>
   );
 };
+
+const Child2 = () => {
+  const [age, setAge] = useAppStore((state) => state.age);
+
+  return (
+    <div>
+      <h1
+        onClick={() => {
+          setAge({
+            age: (age as number) + 1,
+          });
+        }}
+      >
+        Child2
+      </h1>
+      <p>{age as number}</p>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <AppContext.Provider value={store}>
+      <Child1 />
+      <Child2 />
+    </AppContext.Provider>
+  );
+}
 
 export default App;
