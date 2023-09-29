@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flip</title>
+  <style>
+    .btn {
+      --bg-color: rgb(66, 66, 247);
+      margin-bottom: 8px;
+      padding: 8px 12px;
+
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.1s;
+
+      background-color: var(--bg-color);
+      color: #fff;
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--bg-color) 90%, white);
+      }
+
+      &:active {
+        background-color: color-mix(in srgb, var(--bg-color) 90%, black);
+      }
+    }
+
+    .box {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4px;
+
+      & div {
+        width: 200px;
+        padding: 8px;
+        background-color: bisque;
+        border-radius: 4px;
+        font-size: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button class="btn">Start</button>
+  <div class="box">
+    <div>HTML</div>
+    <div>CSS</div>
+    <div>JavaScript</div>
+    <div>NodeJS</div>
+    <div>TypeScript</div>
+  </div>
+</body>
+<script>
+  const getLocation = (element) => {
+    const rect = element.getBoundingClientRect();
+    return rect.top;
+  }
+  const raf = (callback) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(callback)
+    })
+  }
+
+  const btnElement = document.querySelector(".btn");
+  const elementList = document.querySelector(".box").children;
+
+
+  btnElement.onclick = () => {
+    const startMap = new Map();
+
+    for (let i = 0; i < elementList.length; i++) {
+      startMap.set(elementList[i], getLocation(elementList[i]));
+    }
+
+    let len = elementList.length;
+    let index = 0;
+    while (index < len - 1) {
+      const child = elementList[index];
+      const node = elementList[len - 1];
+
+      document.querySelector(".box").insertBefore(node, child);
+      index++;
+    }
+
+    for (const [element, start] of startMap) {
+      const dis = start - getLocation(element)
+      if (dis === 0) {
+        continue;
+      }
+
+      element.animate([
+        {
+          transform: `translateY(${dis}px)`
+        },
+        {
+          transform: "none"
+        }
+      ], {
+        duration: 300
+      })
+    }
+  }
+</script>
+
+</html>
