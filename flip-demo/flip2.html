@@ -57,27 +57,14 @@
     <div>TypeScript</div>
   </div>
 </body>
+<script src="./flip.js"></script>
 <script>
-  const getLocation = (element) => {
-    const rect = element.getBoundingClientRect();
-    return rect.top;
-  }
-  const raf = (callback) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(callback)
-    })
-  }
-
   const btnElement = document.querySelector(".btn");
   const elementList = document.querySelector(".box").children;
 
 
   btnElement.onclick = () => {
-    const startMap = new Map();
-
-    for (let i = 0; i < elementList.length; i++) {
-      startMap.set(elementList[i], getLocation(elementList[i]));
-    }
+    const flip = new Flip(elementList);
 
     let len = elementList.length;
     let index = 0;
@@ -88,24 +75,7 @@
       document.querySelector(".box").insertBefore(node, child);
       index++;
     }
-
-    for (const [element, start] of startMap) {
-      const dis = start - getLocation(element)
-      if (dis === 0) {
-        continue;
-      }
-
-      element.animate([
-        {
-          transform: `translateY(${dis}px)`
-        },
-        {
-          transform: "none"
-        }
-      ], {
-        duration: 300
-      })
-    }
+    flip.play()
   }
 </script>
 
