@@ -1,5 +1,5 @@
 import axios from "axios";
-import ElMessage from "element-plus/lib/components/message/index.js";
+import { ElMessage } from "element-plus";
 
 const request = axios.create({
   baseURL: "",
