@@ -63,7 +63,7 @@ const onVisibleAside = () => {
           <Expand style="cursor: pointer;" />
         </el-icon>
       </el-header>
-      <el-divider style="margin: 0" />
+      <el-divider style="margin: 0;" />
       <el-main>
         <RouterView />
       </el-main>

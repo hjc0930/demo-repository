@@ -4,6 +4,7 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 import Layout from "@/layouts/index.vue";
+import Login from "@/views/Login.vue";
 
 export type ChildrenType = (RouteRecordRaw & { iconName: string } & Record<
     string,
@@ -11,6 +12,11 @@ export type ChildrenType = (RouteRecordRaw & { iconName: string } & Record<
   >)[];
 
 export const routes: RouteRecordRaw[] = [
+  {
+    path: "/auth",
+    name: "Login",
+    component: Login,
+  },
   {
     path: "/",
     component: Layout,
