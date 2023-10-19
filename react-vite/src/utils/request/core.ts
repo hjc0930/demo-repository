@@ -8,8 +8,15 @@ class HttpRequest {
     this.initOptions = initOptions;
   }
 
-  private async beforeHandler(url: string, options?: RequestInit): Promise<FetchRequest> {
-    const { prefix = "", suffix = "", timeout = 60 * 1000 } = this.initOptions ?? {} as Options;
+  private async beforeHandler(
+    url: string,
+    options?: RequestInit
+  ): Promise<FetchRequest> {
+    const {
+      prefix = "",
+      suffix = "",
+      timeout = 60 * 1000,
+    } = this.initOptions ?? ({} as Options);
     const requestInterceptors = this.initOptions?.requestInterceptors ?? [];
 
     const abortController = new AbortController();
@@ -19,7 +26,7 @@ class HttpRequest {
     const request = new Request(urlSplicing, {
       signal: abortController.signal,
       ...options,
-      body: options?.body ? JSON.stringify(options?.body) : undefined
+      body: options?.body ? JSON.stringify(options?.body) : undefined,
     });
 
     const timer = setTimeout(() => {
@@ -39,7 +46,10 @@ class HttpRequest {
     return fetchRequest;
   }
 
-  private async afterHandler(request: Request, response: Response): Promise<Response> {
+  private async afterHandler(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
     const responseInterceptors = this.initOptions?.responseInterceptors ?? [];
 
     if (!responseInterceptors?.length) {
@@ -47,9 +57,10 @@ class HttpRequest {
     }
 
     for (const interceptor of responseInterceptors) {
-      response = await interceptor(
-        { requestInstance: request, responseInstance: response }
-      );
+      response = await interceptor({
+        requestInstance: request,
+        responseInstance: response,
+      });
     }
 
     return response;
@@ -61,19 +72,18 @@ class HttpRequest {
     try {
       let response = await fetch(request);
 
-      response = await this.afterHandler(request, response)
+      response = await this.afterHandler(request, response);
 
       return response;
     } catch (error: any) {
       throw new HttpRequestError(`A ${error.name} error`, {
         request,
-        cause: error
+        cause: error,
       });
     } finally {
       clearTimeout(request.timer);
     }
   }
-
 }
 
 export default HttpRequest;

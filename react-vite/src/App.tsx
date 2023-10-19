@@ -1,38 +1,106 @@
-import { createContext, useState } from "react";
-import "./App.css";
-import Child from "./views/Child";
-import Home from "./views/Home";
+import { Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { useState } from "react";
+// import
 
-export const ThemeContext = createContext("light");
-export const CurrentUserContext = createContext<any>(null);
+const App = () => {
+  const [data, setData] = useState<any[]>([]);
+  const [text, setText] = useState("");
 
-function App() {
-  const [theme, setTheme] = useState("light");
-  const [currentUser, setCurrentUser] = useState(null);
+  const columns: ColumnsType = [
+    {
+      title: "ID",
+      dataIndex: "id",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+    },
+  ];
+
+  // const _runTask = (task: any) => {
+  //   requestIdleCallback((idle) => {
+  //     if (idle.timeRemaining() > 0) {
+  //       task();
+  //     } else {
+  //       _runTask(task);
+  //     }
+  //   });
+  // };
+
+  const addData = async () => {
+    const total = 5000;
+    let i = 0;
+
+    const _run = () => {
+      const startTime = Date.now();
+      while (i < total && Date.now() - startTime < 16.6) {
+        i++;
+        setData((val) => [
+          ...val,
+          {
+            id: i + 1,
+            name: `name-${i + 1}`,
+          },
+        ]);
+      }
+
+      if (i < total) {
+        requestAnimationFrame(_run);
+      }
+    };
+
+    _run();
+    // for (let i = 0; i < 100; i++) {
+    //   _runTask(() => {
+    //     setData((val) => [
+    //       ...val,
+    //       {
+    //         id: i + 1,
+    //         name: `name-${i + 1}`,
+    //       },
+    //     ]);
+    //   });
+    // }
+  };
+
+  console.log(data);
+
   return (
-    <>
-      <ThemeContext.Provider value={theme}>
-        <CurrentUserContext.Provider
-          value={{
-            currentUser,
-            setCurrentUser,
-          }}
-        >
-          <Home />
-          <Child />
-          <button
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          >
-            Toggle Theme
-          </button>
-        </CurrentUserContext.Provider>
-      </ThemeContext.Provider>
-    </>
+    <div>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <p>{text}</p>
+      <button id="my-button" onClick={addData}>
+        执行任务
+      </button>
+      <Table
+        columns={columns as any}
+        dataSource={data}
+        rowKey="id"
+        scroll={{
+          y: 500,
+        }}
+        pagination={false}
+      />
+      {/* <div
+        id="box"
+        style={{
+          width: 400,
+          height: 500,
+          overflow: "auto",
+          marginTop: "24px",
+        }}
+      >
+        {new Array(1000).fill("*").map((_, index) => (
+          <h2 key={index}>{index}</h2>
+        ))}
+      </div> */}
+    </div>
   );
-}
+};
 
 export default App;
-
-// 我觉得终身学习很重要
-
-// I think lifelong learning is very important
