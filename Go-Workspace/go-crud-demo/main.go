@@ -1,4 +1,4 @@
-package controllers
+package main
 
 import (
 	"go-crud-demo/src/config"
@@ -9,14 +9,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListController() {
-	config.GinService.GET("/", func(ctx *gin.Context) {
+func main() {
+	// Connect to database
+	db, _ := config.CreateSchema()
+	db.AutoMigrate(&entitys.List{})
+
+	// Created service
+	ginService := gin.Default()
+	PORT := "8080"
+
+	ginService.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"message": "Successful!",
 		})
 	})
 
-	config.GinService.POST("/list", func(ctx *gin.Context) {
+	ginService.POST("/list", func(ctx *gin.Context) {
 		var data entitys.List
 
 		err := ctx.ShouldBindJSON(&data)
@@ -28,7 +36,7 @@ func ListController() {
 			})
 		} else {
 			// Add data to schema
-			config.Db.Create(&data)
+			db.Create(&data)
 
 			ctx.JSON(200, gin.H{
 				"code":    200,
@@ -38,12 +46,12 @@ func ListController() {
 		}
 	})
 
-	config.GinService.DELETE("/list/:id", func(ctx *gin.Context) {
+	ginService.DELETE("/list/:id", func(ctx *gin.Context) {
 		var data []entitys.List
 
 		id := ctx.Param("id")
 
-		config.Db.Where("id = ?", id).Find(&data)
+		db.Where("id = ?", id).Find(&data)
 
 		if len(data) == 0 {
 			ctx.JSON(400, gin.H{
@@ -51,7 +59,7 @@ func ListController() {
 				"message": "ID未找到",
 			})
 		} else {
-			config.Db.Where("id = ?", id).Delete(&data)
+			db.Where("id = ?", id).Delete(&data)
 
 			ctx.JSON(200, gin.H{
 				"code":    200,
@@ -61,13 +69,13 @@ func ListController() {
 
 	})
 
-	config.GinService.PUT("/list/:id", func(ctx *gin.Context) {
+	ginService.PUT("/list/:id", func(ctx *gin.Context) {
 		var data entitys.List
 
 		id := ctx.Param("id")
 
 		err := ctx.ShouldBindJSON(&data)
-		config.Db.Select("id").Where("id = ?", id).Find(&data)
+		db.Select("id").Where("id = ?", id).Find(&data)
 
 		if err != nil {
 			ctx.JSON(400, gin.H{
@@ -85,7 +93,7 @@ func ListController() {
 			return
 		}
 
-		config.Db.Where("id = ?", id).Updates(&data)
+		db.Where("id = ?", id).Updates(&data)
 
 		ctx.JSON(200, gin.H{
 			"code":    200,
@@ -93,10 +101,10 @@ func ListController() {
 		})
 	})
 
-	config.GinService.GET("/list", func(ctx *gin.Context) {
+	ginService.GET("/list", func(ctx *gin.Context) {
 		var dataList vo.ListVo
 
-		config.Db.Model(&dataList.List).Order("created_at DESC").Count(&dataList.Total).Find(&dataList.List)
+		db.Model(&dataList.List).Order("created_at DESC").Count(&dataList.Total).Find(&dataList.List)
 
 		ctx.JSON(200, gin.H{
 			"code":    200,
@@ -106,7 +114,7 @@ func ListController() {
 
 	})
 
-	config.GinService.GET("/list/page", func(ctx *gin.Context) {
+	ginService.GET("/list/page", func(ctx *gin.Context) {
 		page, pageErr := strconv.Atoi(ctx.Query("page"))
 		size, sizeErr := strconv.Atoi(ctx.Query("size"))
 
@@ -120,7 +128,7 @@ func ListController() {
 
 		var dataList vo.ListVo
 
-		config.Db.Model(&dataList.List).Order("created_at DESC").Count(&dataList.Total).Limit(size).Offset(page).Find(&dataList.List)
+		db.Model(&dataList.List).Order("created_at DESC").Count(&dataList.Total).Limit(size).Offset(page).Find(&dataList.List)
 
 		ctx.JSON(200, gin.H{
 			"code":    200,
@@ -129,4 +137,5 @@ func ListController() {
 		})
 	})
 
+	ginService.Run(":" + PORT)
 }

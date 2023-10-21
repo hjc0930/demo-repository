@@ -5,20 +5,15 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
 
-var GinService *gin.Engine
-var Db *gorm.DB
-
 func CreateSchema() (db *gorm.DB, sqlDb *sql.DB) {
-	var err, dbErr error
 	// Connect to database
 	dsn := "root:123456@tcp(127.0.0.1:3306)/practice?charset=utf8mb4&parseTime=True&loc=Local"
-	Db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
