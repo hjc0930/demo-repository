@@ -1,6 +1,6 @@
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { useState } from "react";
+import { startTransition, useState } from "react";
 // import
 
 const App = () => {
@@ -18,53 +18,31 @@ const App = () => {
     },
   ];
 
-  // const _runTask = (task: any) => {
-  //   requestIdleCallback((idle) => {
-  //     if (idle.timeRemaining() > 0) {
-  //       task();
-  //     } else {
-  //       _runTask(task);
-  //     }
-  //   });
-  // };
-
   const addData = async () => {
     const total = 5000;
-    let i = 0;
+    const pageNum = 100;
+    const pageTotal = Math.ceil(total / pageNum);
+    let page = 1;
 
     const _run = () => {
-      const startTime = Date.now();
-      while (i < total && Date.now() - startTime < 16.6) {
-        i++;
-        setData((val) => [
-          ...val,
-          {
-            id: i + 1,
-            name: `name-${i + 1}`,
-          },
-        ]);
+      for (let i = (page - 1) * pageNum; i < page * pageNum; i++) {
+        data.push({
+          id: i + 1,
+          name: `name-${i + 1}`,
+        });
       }
+      startTransition(() => {
+        setData([...data]);
+      });
+      page++;
 
-      if (i < total) {
+      if (page <= pageTotal) {
         requestAnimationFrame(_run);
       }
     };
 
-    _run();
-    // for (let i = 0; i < 100; i++) {
-    //   _runTask(() => {
-    //     setData((val) => [
-    //       ...val,
-    //       {
-    //         id: i + 1,
-    //         name: `name-${i + 1}`,
-    //       },
-    //     ]);
-    //   });
-    // }
+    requestAnimationFrame(_run);
   };
-
-  console.log(data);
 
   return (
     <div>

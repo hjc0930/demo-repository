@@ -1,0 +1,38 @@
+package config
+
+import (
+	"database/sql"
+	"fmt"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
+)
+
+var GinService *gin.Engine
+var Db *gorm.DB
+
+func CreateSchema() (db *gorm.DB, sqlDb *sql.DB) {
+	var err, dbErr error
+	// Connect to database
+	dsn := "root:123456@tcp(127.0.0.1:3306)/practice?charset=utf8mb4&parseTime=True&loc=Local"
+	Db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
+
+	sqlDB, dbErr := db.DB()
+	fmt.Println(err, dbErr)
+
+	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
+	sqlDB.SetMaxIdleConns(10)
+	// SetMaxOpenConns sets the maximum number of open connections to the database.
+	sqlDB.SetMaxOpenConns(100)
+	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
+	sqlDB.SetConnMaxLifetime(time.Second)
+
+	return db, sqlDB
+}
