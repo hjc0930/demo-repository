@@ -1,0 +1,4 @@
+{
+  "watch": ["./index.js"],
+  "exec": "npm run dev"
+}

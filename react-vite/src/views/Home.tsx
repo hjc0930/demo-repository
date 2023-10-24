@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../App";
 
 const Home = () => {
-  const theme = useContext(ThemeContext);
+  const { useDispatch, useSelector } = useModel(counterStore);
 
   return <div>{theme}</div>;
 };
