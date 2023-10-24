@@ -1,14 +1,14 @@
 import { memo } from "react";
 import { useAppStore } from "../App";
 
-const Child = memo(() => {
+const Child2 = memo(() => {
   const [name, setQuery] = useAppStore((state) => state.name);
 
   console.log(123);
 
   return (
     <div>
-      <h1>Child</h1>
+      <h1>Child2</h1>
       <p>Name: {name}</p>
       <button
         onClick={() => {
@@ -23,4 +23,4 @@ const Child = memo(() => {
   );
 });
 
-export default Child;
+export default Child2;

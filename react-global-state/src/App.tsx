@@ -1,5 +1,6 @@
-import createStoreContext from "./stores/createStoreContext";
+import createStoreContext from "./customStore/createStoreContext";
 import Child from "./views/Child";
+import Child2 from "./views/Child2";
 import Home from "./views/Home";
 
 //  AppContext
@@ -27,6 +28,7 @@ function App() {
     <AppContextProvider>
       <Home />
       <Child />
+      <Child2 />
     </AppContextProvider>
   );
 }
