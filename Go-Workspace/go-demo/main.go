@@ -1,15 +1,18 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
-func hello() {
-	fmt.Println("Hello Goroutine!")
-}
+var arr = []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+var slice0 []int = arr[2:8]
+
+var slice1 []int = arr[:6]
+
+var slice2 []int = arr[5:]
+
 func main() {
-	go hello()
-	fmt.Println("main goroutine done!")
-	time.Sleep(time.Second)
+	fmt.Println(arr)
+	fmt.Println(slice0)
+	fmt.Println(slice1)
+	fmt.Println(slice2)
 }
