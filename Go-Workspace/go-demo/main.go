@@ -2,21 +2,7 @@ package main
 
 import "fmt"
 
-var arr = []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-
-var slice0 []int = arr[2:8]
-
-var slice1 []int = arr[:6]
-
-var slice2 []int = arr[5:]
-
-func main() {
-	fmt.Println(arr)
-	fmt.Println(slice0)
-	fmt.Println(slice1)
-	fmt.Println(slice2)
-
-//Student 学生
+// Student 学生
 type student struct {
 	id   int
 	name string
@@ -42,4 +28,10 @@ func main() {
 	for i, x := range numbers {
 		fmt.Printf("The value of x = %d in the %d place\n", x, i)
 	}
+	slice := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+	d1 := slice[6:8]
+	fmt.Println(d1, len(d1), cap(d1))
+	d2 := slice[:6:8]
+	fmt.Println(d2, len(d2), cap(d2))
 }
