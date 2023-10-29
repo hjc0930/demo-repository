@@ -1,12 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-console.log(
-  import.meta.glob("../views/**.tsx", {
-    eager: true,
-    // import: "Component",
-  })
-);
-
 // const renderRouter = Object.entries(import.meta.glob("../views/**")).reduce(
 //   (prev: any[], [key, lazy]) => {
 //     const paths = key.toLocaleLowerCase().split("/");
@@ -31,14 +24,7 @@ console.log(
 // const router = createBrowserRouter(renderRouter);
 const router = createBrowserRouter([
   {
-    path: "",
-    loader: () => {
-      document.title = "Home";
-      return {
-        a: 1,
-        b: 2,
-      };
-    },
+    path: "/:id",
     lazy: () => import("../views/home"),
   },
   {
