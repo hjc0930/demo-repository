@@ -1,14 +1,7 @@
-import Child from "./views/Child";
-import Child2 from "./views/Child2";
-import { Provider } from "./store/userStore";
+import Router from "./router";
 
 function App() {
-  return (
-    <Provider>
-      <Child />
-      <Child2 />
-    </Provider>
-  );
+  return <Router />;
 }
 
 export default App;
