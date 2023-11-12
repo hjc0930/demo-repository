@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReducerContext from "../views/reducer-context";
-import A from "../views/a";
+import ReactContext from "../views/react-context";
 
 const router = createBrowserRouter([
   {
@@ -8,8 +8,8 @@ const router = createBrowserRouter([
     element: <ReducerContext />,
   },
   {
-    path: "a",
-    element: <A />,
+    path: "/react-context",
+    element: <ReactContext />,
   },
 ]);
 

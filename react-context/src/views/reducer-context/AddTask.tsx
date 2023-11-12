@@ -5,8 +5,6 @@ function AddTask() {
   const [text, setText] = useState("");
   const dispatch = useTasksDispatch();
 
-  console.log(123123);
-
   return (
     <div>
       <input
