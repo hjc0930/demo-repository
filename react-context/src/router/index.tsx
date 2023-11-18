@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReducerContext from "../views/reducer-context";
 import ReactContext from "../views/react-context";
+import ModalDemo from "../views/modal-demo";
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/react-context",
     element: <ReactContext />,
+  },
+  {
+    path: "modal-demo",
+    element: <ModalDemo />,
   },
 ]);
 
