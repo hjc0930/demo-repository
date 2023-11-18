@@ -1,11 +1,15 @@
-import { createRoot } from "react-dom/client";
 import messageInstance from "../components/Message";
+import { message } from "antd";
 
 function MessageDemo() {
   const onOpen = () => {
-    messageInstance({
-      content: "",
+    message.success({
+      content: "123123",
+      duration: 5,
     });
+    // messageInstance({
+    //   content: "",
+    // });
   };
 
   return (

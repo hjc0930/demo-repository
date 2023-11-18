@@ -1,4 +1,10 @@
-import React, { PropsWithChildren } from "react";
+import React, {
+  ForwardRefRenderFunction,
+  PropsWithChildren,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { Root, createRoot } from "react-dom/client";
 import "./index.css";
 
@@ -12,15 +18,19 @@ function MessageContainer({ children }: PropsWithChildren) {
   return <div className="message-container">{children}</div>;
 }
 
-function Message() {
+const Message = forwardRef((_props, ref) => {
+  const messageRef = useRef(null);
+
+  useImperativeHandle(ref, () => messageRef.current);
+
   return (
-    <div className="message-wrapper">
+    <div className="message-wrapper" ref={messageRef}>
       <div className="message-content">
         <p>This is a demo text</p>
       </div>
     </div>
   );
-}
+});
 
 function render(node: React.ReactElement, container: ContainerType) {
   const root = container[MARK] || createRoot(container);
