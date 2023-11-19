@@ -3,13 +3,9 @@ import { message } from "antd";
 
 function MessageDemo() {
   const onOpen = () => {
-    message.success({
-      content: "123123",
-      duration: 5,
+    messageInstance({
+      content: "",
     });
-    // messageInstance({
-    //   content: "",
-    // });
   };
 
   return (

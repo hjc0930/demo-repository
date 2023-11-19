@@ -3,6 +3,7 @@ import ReducerContext from "../views/reducer-context";
 import ReactContext from "../views/react-context";
 import ModalDemo from "../views/modal-demo";
 import MessageDemo from "../views/message-demo";
+import Flip from "../views/flip";
 
 const router = createBrowserRouter([
   {
@@ -10,7 +11,7 @@ const router = createBrowserRouter([
     element: <ReducerContext />,
   },
   {
-    path: "/react-context",
+    path: "react-context",
     element: <ReactContext />,
   },
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "message-demo",
     element: <MessageDemo />,
+  },
+  {
+    path: "flip",
+    element: <Flip />,
   },
 ]);
 

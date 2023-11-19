@@ -1,74 +1,57 @@
 import { Root, createRoot } from "react-dom/client";
-import render, { MessageContainer, Message } from "./createMessage";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import HookMessage from "./HookMessage";
+import { Flip } from "./flip";
 
-interface MessageOptions {
+export interface MessageOptions {
   content: string;
   icon?: React.ReactNode;
   duration?: number;
   type?: "info" | "success" | "warning" | "error";
 }
 
-const methods = ["success", "info", "error", "warning"] as const;
-const elements: Map<string, React.ReactElement> = new Map();
-
 let uuid = 0;
 let root: Root;
+let messageElementContainer: HTMLDivElement | null = null;
+let flip: Flip;
+const elements: Map<string, React.ReactElement> = new Map();
+const methods = ["success", "info", "error", "warning"] as const;
 
-function HookMessage(props: MessageOptions) {
-  const messageRef = useRef<HTMLDListElement>(null);
-  useEffect(() => {
-    let delayTimer = NaN;
-    const timer = setTimeout(() => {
-      messageRef.current?.animate(
-        [
-          {
-            opacity: 1,
-            transform: "translate(0, 0)",
-          },
-          {
-            opacity: 0,
-            transform: "translate(0, -30px)",
-          },
-        ],
-        {
-          duration: 200,
-          fill: "both",
-        }
-      );
-      delayTimer = setTimeout(() => {
-        elements.delete(props.comKey);
-        props?.render();
-      }, 200);
-    }, 2000);
-    return () => {
-      clearTimeout(timer);
-      if (!Number.isNaN(delayTimer)) {
-        clearTimeout(delayTimer);
-      }
-    };
-  }, []);
-  return <Message ref={messageRef} />;
-}
+const render = () => {
+  root.render([...elements.values()]);
+};
+
+const removeElements = (key: string) => {
+  uuid--;
+  elements.delete(key);
+  render();
+};
 
 function messageInstance(options: MessageOptions) {
-  let messageElementContainer = document.querySelector(".message-container");
   if (!messageElementContainer) {
     messageElementContainer = document.createElement("div");
+    flip = new Flip(messageElementContainer);
     messageElementContainer.classList.add("message-container");
 
     document.body.appendChild(messageElementContainer);
     root = createRoot(messageElementContainer);
   }
   const key = `message-${uuid++}`;
-  const render = () => {
-    root.render(<MessageContainer>{[...elements.values()]}</MessageContainer>);
-  };
   elements.set(
     key,
-    <HookMessage {...options} render={render} key={key} comKey={key} />
+    <HookMessage
+      {...options}
+      key={key}
+      flip={flip}
+      comKey={key}
+      removeElements={removeElements}
+    />
   );
   render();
+
+  requestAnimationFrame(() => {
+    flip.startRectOfrecalculate();
+  });
 }
 
 export default messageInstance;
