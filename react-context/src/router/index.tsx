@@ -4,6 +4,7 @@ import ReactContext from "../views/react-context";
 import ModalDemo from "../views/modal-demo";
 import MessageDemo from "../views/message-demo";
 import Flip from "../views/flip";
+import ContextDemo from "../views/context-demo";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "flip",
     element: <Flip />,
+  },
+  {
+    path: "context-demo",
+    element: <ContextDemo />,
   },
 ]);
 
