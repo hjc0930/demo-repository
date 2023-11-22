@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import { T } from "vitest/dist/reporters-5f784f42";
 
 class BaseStore {
   protected listerners: Set<Function> = new Set();
@@ -15,45 +16,50 @@ class BaseStore {
   };
 }
 
-class Store extends BaseStore {
-  private initialSelector: any;
-  constructor(initialSelector: any) {
+type SelectorType<T, R extends T = any> = (state: T) => R;
+
+class Store<T> extends BaseStore {
+  private initialSelector: T;
+  constructor(initialSelector: T) {
     super();
     this.initialSelector = initialSelector;
   }
 
-  public set = (state: any) => {
-    this.initialSelector = state;
+  public set = (selector: any) => {
+    if (typeof selector === "function") {
+      this.initialSelector = selector(this.initialSelector);
+    }
     this.emitChange();
   };
 
-  public get = () => {
-    return this.initialSelector;
+  public get = (selector?: SelectorType<T>) => {
+    return typeof selector === "function"
+      ? selector(this.initialSelector)
+      : this.initialSelector;
   };
 }
 
-const createImpl = (initialSelector: any) => {
+function createImpl<T>(
+  initialSelector?: (set?: any, get?: any) => Record<string, any>
+) {
   const baseStore = new BaseStore();
-  const initialValues = initialSelector();
 
-  const set = (selector?: any) => {
-    selector?.(initialValues);
-    baseStore.emitChange();
-  };
+  initialSelector?.(
+    (selector?: SelectorType<any>) => {
+      selector?.({});
+      baseStore.emitChange();
+    },
+    (selector?: SelectorType<any>) => {
+      return selector?.({}) ?? {};
+    }
+  );
+  // const stores = new Store();
 
-  const get = (selector?: any) => {
-    return typeof selector === "function"
-      ? selector(initalSelector)
-      : initalSelector;
-  };
-
-  const initialValues = initialSelector?.(set, get);
-
-  return (selector?: any) =>
-    useSyncExternalStore(baseStore.subscript, () => {
-      // TODO
+  return (selector?: SelectorType<T>) =>
+    useSyncExternalStore(stores.subscript, () => {
+      return stores.get(selector);
     });
-};
+}
 
 const create = (initalSelector: any) => {
   return createImpl(initalSelector);
