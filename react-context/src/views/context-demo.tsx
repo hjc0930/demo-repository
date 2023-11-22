@@ -55,10 +55,7 @@ function createImpl<T>(
   );
   // const stores = new Store();
 
-  return (selector?: SelectorType<T>) =>
-    useSyncExternalStore(stores.subscript, () => {
-      return stores.get(selector);
-    });
+  return (selector?: SelectorType<T>) => {};
 }
 
 const create = (initalSelector: any) => {
@@ -66,11 +63,12 @@ const create = (initalSelector: any) => {
 };
 
 function ContextDemo() {
-  const [form] = useForm();
+  // const [form] = useForm();
   return (
     <div>
-      <h1>{form.initialValue.b}</h1>
-      <button onClick={form.addValue}>Add</button>
+      12312321
+      {/* <h1>{form.initialValue.b}</h1> */}
+      {/* <button onClick={form.addValue}>Add</button> */}
     </div>
   );
 }
