@@ -1,4 +1,4 @@
-import messageInstance from "../components/Message";
+import messageInstance from "@/components/Message";
 import { message } from "antd";
 
 function MessageDemo() {

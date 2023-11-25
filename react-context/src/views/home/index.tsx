@@ -1,9 +1,8 @@
-import { useState } from "react";
 import AddTask from "./AddTask";
 import TaskList from "./TaskList";
 import { TaskProvider } from "./TaskContext";
 
-function ReducerContext() {
+function Home() {
   return (
     <TaskProvider>
       <h1>布拉格的行程安排</h1>
@@ -13,4 +12,4 @@ function ReducerContext() {
   );
 }
 
-export default ReducerContext;
+export default Home;
