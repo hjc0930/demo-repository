@@ -5,6 +5,7 @@ import ModalDemo from "../views/modal-demo";
 import MessageDemo from "../views/message-demo";
 import Flip from "../views/flip";
 import ContextDemo from "../views/context-demo";
+import AntdForm from "../views/antd-form";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "context-demo",
     element: <ContextDemo />,
+  },
+  {
+    path: "antd-form-demo",
+    element: <AntdForm />,
   },
 ]);
 
