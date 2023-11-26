@@ -5,7 +5,8 @@ let str = "";
 
 Object.keys(a).forEach((item) => {
   str += `declare module ${item} {
-  interface A {}
+    const component: React.ReactElement
+    export default component;
 }
 \n`;
 });
