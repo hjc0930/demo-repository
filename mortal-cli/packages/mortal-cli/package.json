@@ -1,0 +1,17 @@
+{
+  "name": "mortal-cli",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "mortal": "./bin/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "yargs": "^17.7.2"
+  }
+}
