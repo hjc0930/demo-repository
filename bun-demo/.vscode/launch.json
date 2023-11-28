@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/index.js",
+      "request": "launch",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": [
+        "start"
+      ],
+      // "skipFiles": [
+      //   "<node_internals>/**"
+      // ],
+      "type": "node"
+    }
+
+  ]
+}

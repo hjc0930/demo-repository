@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
-import Modal, { useModal } from "../components";
-import { useAppStore, useAppDispatch } from "../store/AppStore";
+import Modal, { useModal } from "@/components";
+import { useAppStore, useAppDispatch } from "@/store/AppStore";
 
 const Child = () => {
   const store = useAppStore();

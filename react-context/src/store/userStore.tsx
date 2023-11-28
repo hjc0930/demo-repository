@@ -49,8 +49,8 @@ export function useStore(selector?: any) {
   };
 }
 
-function createImpl(createState) {}
+// function createImpl(createState) {}
 
 function create<T = any>(initState: T) {
-  return initState ? createImpl(initState) : createImpl;
+  // return initState ? createImpl(initState) : createImpl;
 }
