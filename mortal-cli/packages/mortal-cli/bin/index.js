@@ -1,22 +1,9 @@
 #! /usr/bin/env node
-const process = require("node:process");
+import parseArgv from "./utils/parseArgv.js";
 
-console.log(process.argv);
-// const yargs = require("yargs");
-// const { hideBin } = require("yargs/helpers");
+const buildResult = parseArgv("build", ["mode"]);
 
-// yargs(hideBin(process.argv))
-//   .command(
-//     ["build"],
-//     "This is a build test",
-//     function (yargs) {
-//       return yargs.option("mode", {
-//         describe: "Running mode",
-//         type: "string",
-//       });
-//     },
-//     (argv) => {
-//       console.log(argv.mode);
-//     }
-//   )
-//   .parse();
+if (buildResult[0] === "build") {
+  console.log(buildResult);
+} else {
+}
