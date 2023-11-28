@@ -1,0 +1,19 @@
+{
+  "name": "mf-micro-fe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "pnpm -F host -F order start",
+    "build": "pnpm -r exec pnpm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": {
+    "packages": [
+      "./packages/*"
+    ]
+  }
+}
