@@ -1,4 +1,4 @@
-console.log(123123123);
+console.log(1);
 
 function app(a, b) {
   return;
