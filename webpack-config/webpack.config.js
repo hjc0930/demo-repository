@@ -1,3 +1,5 @@
+const fs = require("node:fs");
+
 /**
  * @type {import('webpack').Configuration}
  */
