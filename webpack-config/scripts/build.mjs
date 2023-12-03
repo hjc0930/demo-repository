@@ -1,6 +1,10 @@
 import configFactory from "./config/webpack.config.mjs";
 import webpack from "webpack";
 import process from "node:process";
+import formatWebpackMessages from "./utils/formatMessage.mjs";
+
+process.env.BABEL_ENV = "production";
+process.env.NODE_ENV = "production";
 
 process.on("unhandledRejection", (err) => {
   throw err;
@@ -14,7 +18,9 @@ function build() {
   const compiler = webpack(config);
 
   compiler.run((err, stats) => {
-    /** @type {Build.Message} */
+    /**
+     * @type {Build.Message}
+     */
     let messages;
 
     if (err) {
@@ -24,19 +30,20 @@ function build() {
 
       let errMessage = err.message;
 
-      // Add additional information for postcss errors
       if (Object.prototype.hasOwnProperty.call(err, "postcssNode")) {
         errMessage +=
           "\nCompileError: Begins at CSS selector " +
           err["postcssNode"].selector;
       }
 
-      messages = {
+      messages = formatWebpackMessages({
         errors: [errMessage],
         warnings: [],
-      };
+      });
     } else {
-      messages = stats.toJson({ all: false, warnings: true, errors: true });
+      messages = formatWebpackMessages(
+        stats.toJson({ all: false, warnings: true, errors: true })
+      );
     }
 
     if (messages.errors.length) {
