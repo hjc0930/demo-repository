@@ -5,11 +5,13 @@ import {
   appEntry,
   appHtml,
   appNodeModules,
+  appPublic,
   appSrc,
   appWebpackCatch,
   moduleFileExtensions,
 } from "../utils/paths.mjs";
 import TerserPlugin from "terser-webpack-plugin";
+import copyWebpackPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import createRequire from "../utils/createRequire.mjs";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -49,11 +51,11 @@ const configFactory = (env) => {
       clean: true,
       path: appDist,
       filename: isEnvProduction
-        ? "js/[name].[contenthash:8].js"
-        : "js/bundle.js",
+        ? "assets/[name].[contenthash:8].js"
+        : "assets/bundle.js",
       chunkFilename: isEnvProduction
-        ? "js/[name].[contenthash:8].chunk.js"
-        : "js/[name].chunk.js",
+        ? "assets/[name].[contenthash:8].chunk.js"
+        : "assets/[name].chunk.js",
       assetModuleFilename: "assets/[name].[hash][ext]",
     },
     cache: {
@@ -76,6 +78,7 @@ const configFactory = (env) => {
       minimizer: [
         // This is only used in production mode
         new TerserPlugin({
+          extractComments: false,
           terserOptions: {
             parse: {
               // We want terser to parse ecma 8 code. However, we don't want it
@@ -178,7 +181,6 @@ const configFactory = (env) => {
                     require.resolve("babel-preset-react-app"),
                     {
                       runtime: "automatic",
-                      // runtime: hasJsxRuntime ? "automatic" : "classic",
                     },
                   ],
                 ],
@@ -343,9 +345,13 @@ const configFactory = (env) => {
       !isEnvProduction && new CaseSensitivePathsPlugin(),
       isEnvProduction &&
         new MiniCssExtractPlugin({
-          filename: "css/[name].[contenthash:8].css",
-          chunkFilename: "css/[name].[contenthash:8].chunk.css",
+          filename: "assets/[name].[contenthash:8].css",
+          chunkFilename: "assets/[name].[contenthash:8].chunk.css",
         }),
+      new copyWebpackPlugin({
+        from: appPublic,
+        to: appDist,
+      }),
     ].filter(Boolean),
     performance: false,
   };
