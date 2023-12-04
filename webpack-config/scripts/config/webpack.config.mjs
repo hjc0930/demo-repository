@@ -11,7 +11,7 @@ import {
   moduleFileExtensions,
 } from "../utils/paths.mjs";
 import TerserPlugin from "terser-webpack-plugin";
-import copyWebpackPlugin from "copy-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import createRequire from "../utils/createRequire.mjs";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -348,9 +348,16 @@ const configFactory = (env) => {
           filename: "assets/[name].[contenthash:8].css",
           chunkFilename: "assets/[name].[contenthash:8].chunk.css",
         }),
-      new copyWebpackPlugin({
-        from: appPublic,
-        to: appDist,
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: appPublic,
+            to: appDist,
+            filter: (item) => {
+              return !item.includes(".html");
+            },
+          },
+        ],
       }),
     ].filter(Boolean),
     performance: false,
