@@ -1,7 +1,7 @@
 // import process from "node:process";
 // import { createRequire } from "node:module";
-import { readdirSync, existsSync, statSync } from "node:fs";
-import path from "node:path";
+// import { readdirSync, existsSync, statSync } from "node:fs";
+// import path from "node:path";
 
 // function checkNodeVersion() {
 //   // 12.22.12
@@ -48,3 +48,28 @@ import path from "node:path";
 // const appDist = path.resolve(process.cwd(), "./dist");
 
 // console.log(printDistReport(appDist));
+
+// console.log("\x1B[31m%s\x1B[0m", "红色");
+// console.log("3333");
+// console.log("\x1B[32m%s\x1B[0m", "红色");
+
+import { networkInterfaces } from "node:os";
+
+const interfaces = networkInterfaces();
+
+let ipaddressArr = [];
+for (const devName in interfaces) {
+  const iface = interfaces[devName];
+  for (let i = 0; i < iface.length; i++) {
+    const alias = iface[i];
+    if (
+      alias.family === "IPv4" &&
+      alias.address !== "127.0.0.1" &&
+      !alias.internal
+    ) {
+      ipaddressArr.push(alias.address);
+    }
+  }
+}
+
+console.log(ipaddressArr);

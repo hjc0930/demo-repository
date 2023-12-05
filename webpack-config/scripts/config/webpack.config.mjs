@@ -19,7 +19,7 @@ import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import createEnvironmentHash from "../utils/createEnvironmentHash.mjs";
 import getCSSModuleLocalIdent from "../utils/getCSSModuleLocalIdent.mjs";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
-import * as CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import {
   cssModuleRegex,
   cssRegex,

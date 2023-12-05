@@ -3,6 +3,7 @@ import webpack from "webpack";
 import process from "node:process";
 import formatWebpackMessages from "./utils/formatMessage.mjs";
 import printAssetsReport from "./utils/printAssetsReport.mjs";
+import chalk from "./utils/chalk.mjs";
 
 process.env.BABEL_ENV = "production";
 process.env.NODE_ENV = "production";
@@ -61,5 +62,5 @@ function build() {
 
 build().then((stats) => {
   printAssetsReport(stats?.toJson()?.assets ?? []);
-  console.log("Compiled successfully.");
+  console.log(chalk.green("Compiled successfully."));
 });
