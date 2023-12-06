@@ -57,19 +57,4 @@ import { networkInterfaces } from "node:os";
 
 const interfaces = networkInterfaces();
 
-let ipaddressArr = [];
-for (const devName in interfaces) {
-  const iface = interfaces[devName];
-  for (let i = 0; i < iface.length; i++) {
-    const alias = iface[i];
-    if (
-      alias.family === "IPv4" &&
-      alias.address !== "127.0.0.1" &&
-      !alias.internal
-    ) {
-      ipaddressArr.push(alias.address);
-    }
-  }
-}
-
 console.log(ipaddressArr);
