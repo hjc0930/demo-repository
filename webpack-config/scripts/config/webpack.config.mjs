@@ -52,15 +52,15 @@ const imageInlineSizeLimit = 10000;
 
 /**
  *
- * @param {"development" | "production"} env
+ * @param {"development" | "production"} mode
  * @returns {import("webpack").Configuration}
  */
-const configFactory = (env) => {
-  console.log(logger.info("Read configuration"));
-  const isEnvProduction = env === "production";
+const configFactory = (mode) => {
+  console.log(logger.info("Creating configuration"));
+  const isEnvProduction = mode === "production";
 
   return {
-    mode: isEnvProduction ? "production" : "development",
+    mode,
     stats: "none",
     entry: appEntry,
     bail: isEnvProduction,

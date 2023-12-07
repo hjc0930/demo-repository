@@ -17,7 +17,7 @@ console.log(logger.info(chalk.bright(chalk.cyan("UIKIT CLI"))));
 const config = configFactory("production");
 
 function build() {
-  console.log(logger.info("Creating an optimized production build..."));
+  console.log(logger.info("building for production..."));
 
   return new Promise((resolve) => {
     const compiler = webpack(config);

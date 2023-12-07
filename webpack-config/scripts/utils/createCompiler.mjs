@@ -66,7 +66,6 @@ const createCompiler = (config, webpack) => {
 
   compiler.hooks.invalid.tap("invalid", () => {
     console.log(logger.info("Preparing..."));
-    printInstructions();
   });
 
   compiler.hooks.done.tap("done", async (stats) => {
@@ -75,12 +74,16 @@ const createCompiler = (config, webpack) => {
       warnings: true,
       errors: true,
     });
-
     const messages = formatWebpackMessages(statsData);
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
-    if (isSuccessful && isInteractive && isFirstCompile) {
-      console.log(logger.success("Compiled successfully"));
-      printInstructions();
+    if (isSuccessful && isInteractive) {
+      const time = stats.endTime - stats.startTime;
+      if (isFirstCompile) {
+        printInstructions();
+        console.log(logger.success(`Compiled successfully in ${time}ms`));
+      } else {
+        console.log(logger.success(`HMR completed, taking ${time}ms`));
+      }
     }
     isFirstCompile = false;
 
@@ -91,7 +94,7 @@ const createCompiler = (config, webpack) => {
       if (messages.errors.length > 1) {
         messages.errors.length = 1;
       }
-      console.log(logger.error("Failed to compile.\n"));
+      console.log(logger.error("Failed to compile."));
       console.log(logger.error(messages.errors.join("\n\n")));
       return;
     }

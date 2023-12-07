@@ -5,7 +5,7 @@ const chalkMap = {
   ready: chalk.blue,
   success: chalk.green,
   warning: chalk.yellow,
-  error: chalk.magenta,
+  error: chalk.red,
 };
 
 /**
