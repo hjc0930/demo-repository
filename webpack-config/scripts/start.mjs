@@ -4,7 +4,7 @@ import devServerConfig from "./config/webpackServer.config.mjs";
 import createCompiler from "./utils/createCompiler.mjs";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
-import clearConsole from "./utils/clearConsole.mjs";
+import logger from "./utils/logger.mjs";
 import chalk from "./utils/chalk.mjs";
 
 process.env.BABEL_ENV = "development";
@@ -14,10 +14,10 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
+console.log(logger.info(chalk.bright(chalk.cyan("UIKIT CLI"))));
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
-const isInteractive = process.stdout.isTTY;
 
 const config = configFactory("development");
 const serverConfig = {
@@ -31,10 +31,7 @@ const devServer = new WebpackDevServer(serverConfig, compiler);
 
 // Launch WebpackDevServer.
 devServer.startCallback(() => {
-  if (isInteractive) {
-    clearConsole();
-  }
-  console.log(chalk.cyan("Starting the development server...\n"));
+  console.log(logger.info("Starting the development server..."));
 });
 
 ["SIGINT", "SIGTERM"].forEach(function (sig) {

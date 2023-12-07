@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "./app.css";
+// import fn from "../public/fn";
+
+// console.log(fn);
 
 const App = () => {
   const [count, setCount] = useState(0);

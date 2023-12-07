@@ -1,9 +1,10 @@
 import chalk from "./chalk.mjs";
-import clearConsole from "./clearConsole.mjs";
 import formatWebpackMessages from "./formatMessage.mjs";
 import { networkInterfaces } from "node:os";
+import logger from "./logger.mjs";
 
 const isInteractive = process.stdout.isTTY;
+let isFirstCompile = true;
 
 /**
  * Get ip address
@@ -11,7 +12,7 @@ const isInteractive = process.stdout.isTTY;
  */
 const getInternalIpAddress = () => {
   const interfaces = networkInterfaces();
-  let ipAddress = [];
+  let networks = [];
   for (const devName in interfaces) {
     const iface = interfaces[devName];
     for (let i = 0; i < iface.length; i++) {
@@ -21,19 +22,27 @@ const getInternalIpAddress = () => {
         alias.address !== "127.0.0.1" &&
         !alias.internal
       ) {
-        ipAddress.push(alias.address);
+        networks.push(alias.address);
       }
     }
   }
-  return ipAddress;
+  return networks;
 };
 
 const printInstructions = () => {
-  console.log();
-  console.log(`You can now view React Application in the browser.`);
-  console.log();
-  console.log(`  Local:           http://localhost:3000`);
-  console.log();
+  const networks = getInternalIpAddress();
+  console.log(
+    logger.ready(
+      `App listening at local: ${chalk.bright("http://localhost:3000")}`
+    )
+  );
+  networks.forEach((item) => {
+    console.log(
+      logger.ready(
+        `App listening at network: ${chalk.bright(`http://${item}:3000`)}`
+      )
+    );
+  });
 };
 
 /**
@@ -47,28 +56,20 @@ const createCompiler = (config, webpack) => {
   try {
     compiler = webpack(config);
   } catch (err) {
-    console.log(chalk.red("Failed to compile."));
+    console.log(logger.error("Failed to compile."));
     console.log();
     // @ts-ignore
-    console.log(err.message || err);
+    console.log(logger.error(err.message || err));
     console.log();
     process.exit(1);
   }
 
   compiler.hooks.invalid.tap("invalid", () => {
-    if (isInteractive) {
-      clearConsole();
-    }
-    console.log("Compiling...");
+    console.log(logger.info("Preparing..."));
+    printInstructions();
   });
 
-  let isFirstCompile = true;
-
   compiler.hooks.done.tap("done", async (stats) => {
-    if (isInteractive) {
-      clearConsole();
-    }
-
     const statsData = stats.toJson({
       all: false,
       warnings: true,
@@ -77,10 +78,8 @@ const createCompiler = (config, webpack) => {
 
     const messages = formatWebpackMessages(statsData);
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
-    if (isSuccessful) {
-      console.log(chalk.green("Compiled successfully!"));
-    }
-    if (isSuccessful && (isInteractive || isFirstCompile)) {
+    if (isSuccessful && isInteractive && isFirstCompile) {
+      console.log(logger.success("Compiled successfully"));
       printInstructions();
     }
     isFirstCompile = false;
@@ -92,27 +91,15 @@ const createCompiler = (config, webpack) => {
       if (messages.errors.length > 1) {
         messages.errors.length = 1;
       }
-      console.log(chalk.red("Failed to compile.\n"));
-      console.log(messages.errors.join("\n\n"));
+      console.log(logger.error("Failed to compile.\n"));
+      console.log(logger.error(messages.errors.join("\n\n")));
       return;
     }
 
     // Show warnings if no errors were found.
     if (messages.warnings.length) {
-      console.log(chalk.yellow("Compiled with warnings.\n"));
-      console.log(messages.warnings.join("\n\n"));
-
-      // Teach some ESLint tricks.
-      console.log(
-        "\nSearch for the " +
-          chalk.underline(chalk.yellow("keywords")) +
-          " to learn more about each warning."
-      );
-      console.log(
-        "To ignore, add " +
-          chalk.cyan("// eslint-disable-next-line") +
-          " to the line before.\n"
-      );
+      console.log(logger.warning("Compiled with warnings.\n"));
+      console.log(logger.warning(messages.warnings.join("\n\n")));
     }
   });
   return compiler;

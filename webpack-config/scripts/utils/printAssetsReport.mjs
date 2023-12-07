@@ -1,4 +1,5 @@
 import chalk from "./chalk.mjs";
+import logger from "./logger.mjs";
 import { appDist } from "./paths.mjs";
 
 /**
@@ -51,8 +52,8 @@ const formatMessage = (message) => {
 const printAssetsReport = (assets) => {
   const buildDirName = appDist.split("/").at(-1);
   const units = process.platform === "darwin" ? 1000 : 1024;
-  console.log();
-  console.log(chalk.blue("File sizes:\n"));
+  console.log(logger.success("Compiled successfully."));
+  console.log(logger.ready("Bundle infomation:\n"));
   const result = assets.map((asset) => {
     const formatItem = {
       name: asset.name.split("/").at(-1),
@@ -72,7 +73,6 @@ const printAssetsReport = (assets) => {
     };
   });
   formatMessage(result);
-  console.log();
 };
 
 export default printAssetsReport;

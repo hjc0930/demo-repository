@@ -23,11 +23,12 @@ const resolveApp = (relativePath) => resolve(appDirectory, relativePath);
 
 const appPath = resolveApp(".");
 const appSrc = resolveApp("src");
-const appEntry = resolveApp("./src/index");
 const appDist = resolveApp("./dist");
-const appHtml = resolveApp("public/index.html");
 const appPublic = resolveApp("public");
+const appEntry = resolveApp("./src/index");
+const appHtml = resolveApp("public/index.html");
 const appNodeModules = resolveApp("node_modules");
+const appPackageJson = resolveApp("package.json");
 const appWebpackCatch = resolveApp("node_modules/.cache");
 
 export {
@@ -38,6 +39,7 @@ export {
   appHtml,
   appPublic,
   appNodeModules,
+  appPackageJson,
   appWebpackCatch,
   moduleFileExtensions,
 };

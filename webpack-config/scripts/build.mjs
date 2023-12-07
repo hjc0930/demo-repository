@@ -4,6 +4,7 @@ import process from "node:process";
 import formatWebpackMessages from "./utils/formatMessage.mjs";
 import printAssetsReport from "./utils/printAssetsReport.mjs";
 import chalk from "./utils/chalk.mjs";
+import logger from "./utils/logger.mjs";
 
 process.env.BABEL_ENV = "production";
 process.env.NODE_ENV = "production";
@@ -12,10 +13,11 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
+console.log(logger.info(chalk.bright(chalk.cyan("UIKIT CLI"))));
 const config = configFactory("production");
 
 function build() {
-  console.log("Creating an optimized production build...");
+  console.log(logger.info("Creating an optimized production build..."));
 
   return new Promise((resolve) => {
     const compiler = webpack(config);
@@ -62,5 +64,4 @@ function build() {
 
 build().then((stats) => {
   printAssetsReport(stats?.toJson()?.assets ?? []);
-  console.log(chalk.green("Compiled successfully."));
 });

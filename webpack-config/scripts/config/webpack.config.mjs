@@ -5,6 +5,8 @@ import {
   appEntry,
   appHtml,
   appNodeModules,
+  appPackageJson,
+  appPath,
   appPublic,
   appSrc,
   appWebpackCatch,
@@ -20,6 +22,7 @@ import createEnvironmentHash from "../utils/createEnvironmentHash.mjs";
 import getCSSModuleLocalIdent from "../utils/getCSSModuleLocalIdent.mjs";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+import ModuleNotFoundPlugin from "../utils/ModuleNotFuntPlugin.mjs";
 import {
   cssModuleRegex,
   cssRegex,
@@ -27,11 +30,25 @@ import {
   sassModuleRegex,
   sassRegex,
 } from "../utils/styles.mjs";
+import ModuleScopePlugin from "../utils/ModuleScopePlugin.mjs";
+import logger from "../utils/logger.mjs";
 
 const require = createRequire(import.meta.url);
-const imageInlineSizeLimit = parseInt(
-  process.env.IMAGE_INLINE_SIZE_LIMIT || "10000"
+
+const reactRefreshRuntimeEntry = require.resolve("react-refresh/runtime");
+const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
+  "@pmmmwh/react-refresh-webpack-plugin"
 );
+const babelRuntimeEntry = require.resolve("babel-preset-react-app");
+const babelRuntimeEntryHelpers = require.resolve(
+  "@babel/runtime/helpers/esm/assertThisInitialized",
+  { paths: [babelRuntimeEntry] }
+);
+const babelRuntimeRegenerator = require.resolve("@babel/runtime/regenerator", {
+  paths: [babelRuntimeEntry],
+});
+
+const imageInlineSizeLimit = 10000;
 
 /**
  *
@@ -39,11 +56,12 @@ const imageInlineSizeLimit = parseInt(
  * @returns {import("webpack").Configuration}
  */
 const configFactory = (env) => {
+  console.log(logger.info("Read configuration"));
   const isEnvProduction = env === "production";
 
   return {
     mode: isEnvProduction ? "production" : "development",
-    stats: "errors-warnings",
+    stats: "none",
     entry: appEntry,
     bail: isEnvProduction,
     devtool: isEnvProduction ? false : "cheap-module-source-map",
@@ -115,6 +133,16 @@ const configFactory = (env) => {
     resolve: {
       modules: ["node_modules", appNodeModules],
       extensions: moduleFileExtensions.map((ext) => `.${ext}`),
+      plugins: [
+        new ModuleScopePlugin(appSrc, [
+          appPackageJson,
+          reactRefreshRuntimeEntry,
+          reactRefreshWebpackPluginRuntimeEntry,
+          babelRuntimeEntry,
+          babelRuntimeEntryHelpers,
+          babelRuntimeRegenerator,
+        ]),
+      ],
     },
     module: {
       strictExportPresence: true,
@@ -359,6 +387,7 @@ const configFactory = (env) => {
           },
         ],
       }),
+      new ModuleNotFoundPlugin(appPath),
     ].filter(Boolean),
     performance: false,
   };
