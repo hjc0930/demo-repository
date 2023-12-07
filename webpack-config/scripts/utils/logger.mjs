@@ -8,14 +8,7 @@ const chalkMap = {
   error: chalk.red,
 };
 
-/**
- * @param {"info" | "success" | "warning" | "error"} type
- * @param {string} message
- * @param {string} [typeMessage]
- */
-const logger = (type, message, typeMessage) => {
-  return `${chalkMap[type](typeMessage ?? type)} - ${message}`;
-};
+const logger = {};
 
 logger.info = (message) => `${chalkMap.info("info   ")} - ${message}`;
 logger.ready = (message) => `${chalkMap.ready("ready  ")} - ${message}`;

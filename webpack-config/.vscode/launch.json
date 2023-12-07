@@ -5,13 +5,22 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
-      "request": "launch",
-      "name": "启动程序",
+      "name": "Attach by Process ID",
+      "port": 8888,
+      "request": "attach",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/scripts/start.mjs"
+      "type": "node"
     }
+    // {
+    //   "type": "node",
+    //   "request": "launch",
+    //   "name": "启动程序",
+    //   "skipFiles": [
+    //     "<node_internals>/**"
+    //   ],
+    //   "program": "${workspaceFolder}/scripts/start.mjs"
+    // }
   ]
 }

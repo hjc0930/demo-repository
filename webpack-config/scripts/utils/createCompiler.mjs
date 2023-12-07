@@ -82,7 +82,7 @@ const createCompiler = (config, webpack) => {
         printInstructions();
         console.log(logger.success(`Compiled successfully in ${time}ms`));
       } else {
-        console.log(logger.success(`HMR completed, taking ${time}ms`));
+        console.log(logger.success(`HMR completed,taking ${time}ms`));
       }
     }
     isFirstCompile = false;
