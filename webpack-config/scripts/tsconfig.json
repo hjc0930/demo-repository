@@ -13,11 +13,12 @@
     "strictNullChecks": false,
     "noImplicitAny": false,
     "noImplicitThis": false,
+    "composite": true,
     /** Module */
     "isolatedModules": true,
     "moduleResolution": "Bundler"
   },
   "include": [
-    "scripts"
+    "."
   ]
 }

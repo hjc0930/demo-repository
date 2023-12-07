@@ -52,7 +52,6 @@ const formatMessage = (message) => {
 const printAssetsReport = (assets) => {
   const buildDirName = appDist.split("/").at(-1);
   const units = process.platform === "darwin" ? 1000 : 1024;
-  console.log(logger.success("Compiled successfully."));
   console.log(logger.ready("Bundle infomation:\n"));
   const result = assets.map((asset) => {
     const formatItem = {
@@ -73,6 +72,8 @@ const printAssetsReport = (assets) => {
     };
   });
   formatMessage(result);
+  console.log();
+  console.log(logger.success("Compiled successfully."));
 };
 
 export default printAssetsReport;
