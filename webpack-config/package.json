@@ -6,7 +6,8 @@
     "start": "node ./scripts/start.mjs",
     "build": "node ./scripts/build.mjs",
     "start:inspect": "node --inspect-brk=8888 ./scripts/start.mjs",
-    "build:inspect": "node --inspect-brk=8888 ./scripts/build.mjs"
+    "build:inspect": "node --inspect-brk=8888 ./scripts/build.mjs",
+    "preinstall": "node ./index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
