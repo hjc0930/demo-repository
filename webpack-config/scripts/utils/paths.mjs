@@ -23,13 +23,14 @@ const resolveApp = (relativePath) => resolve(appDirectory, relativePath);
 
 const appPath = resolveApp(".");
 const appSrc = resolveApp("src");
-const appDist = resolveApp("./dist");
+const appDist = resolveApp("dist");
 const appPublic = resolveApp("public");
-const appEntry = resolveApp("./src/index");
+const appEntry = resolveApp("src/index");
 const appHtml = resolveApp("public/index.html");
 const appNodeModules = resolveApp("node_modules");
 const appPackageJson = resolveApp("package.json");
 const appWebpackCatch = resolveApp("node_modules/.cache");
+const externalConfigPath = resolveApp("uds.config.mjs");
 
 export {
   appPath,
@@ -41,5 +42,6 @@ export {
   appNodeModules,
   appPackageJson,
   appWebpackCatch,
+  externalConfigPath,
   moduleFileExtensions,
 };
