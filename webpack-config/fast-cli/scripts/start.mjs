@@ -15,59 +15,41 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-import(path.resolve(process.cwd(), "./fast.config.mjs"))
-  .then((module) => {
-    const defineConfig = module.default;
+console.log(logger.info(chalk.bright(chalk.cyan("FAST CLI"))));
 
-    if (typeof defineConfig !== "function") {
-      throw new TypeError("The defineConfig is not a function");
-    }
+// const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+// const HOST = process.env.HOST || "0.0.0.0";
 
-    return defineConfig("development", {});
-  })
-  .then(
-    /**
-     *
-     * @param {import("..").FastConfig} externalConfig
-     */
-    (externalConfig) => {
-      console.log(logger.info(chalk.bright(chalk.cyan("FAST CLI"))));
+const config = configFactory("development");
 
-      const { server = {}, ...webpackConfig } = externalConfig ?? {};
+const devServer = devServerConfig();
 
-      console.log({ server, webpackConfig });
-      const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
-      const HOST = process.env.HOST || "0.0.0.0";
+const module = await import(path.resolve(process.cwd(), "./fast.config.mjs"));
+const defineConfig = module.default;
 
-      const config = configFactory("development");
+const mergeConfig = defineConfig("development", {});
 
-      const serverConfig = {
-        ...devServerConfig(),
-        host: HOST,
-        port: DEFAULT_PORT,
-      };
-      const compiler = createCompiler(config, webpack);
+console.log(mergeConfig.server);
+const compiler = createCompiler(config, webpack);
 
-      const devServer = new WebpackDevServer(serverConfig, compiler);
+const server = new WebpackDevServer(devServer, compiler);
 
-      // Launch WebpackDevServer.
-      devServer.startCallback(() => {
-        console.log(logger.info("Starting the development server..."));
-      });
+// Launch WebpackDevServer.
+server.startCallback(() => {
+  console.log(logger.info("Starting the development server..."));
+});
 
-      ["SIGINT", "SIGTERM"].forEach(function (sig) {
-        process.on(sig, function () {
-          devServer.close();
-          process.exit();
-        });
-      });
+["SIGINT", "SIGTERM"].forEach(function (sig) {
+  process.on(sig, function () {
+    server.close();
+    process.exit();
+  });
+});
 
-      if (process.env.CI !== "true") {
-        // Gracefully exit when stdin ends
-        process.stdin.on("end", function () {
-          devServer.close();
-          process.exit();
-        });
-      }
-    }
-  );
+if (process.env.CI !== "true") {
+  // Gracefully exit when stdin ends
+  process.stdin.on("end", function () {
+    server.close();
+    process.exit();
+  });
+}
