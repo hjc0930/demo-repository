@@ -13,7 +13,7 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-console.log(logger.info(chalk.bright(chalk.cyan("UIKIT CLI"))));
+console.log(logger.info(chalk.bright(chalk.cyan("CAT CLI"))));
 const config = configFactory("production");
 
 function build() {

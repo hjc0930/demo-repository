@@ -1,6 +1,6 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { appSrc } from "./paths.mjs";
-import createRequire from "../utils/createRequire.mjs";
+import createRequire from "./createRequire.mjs";
 
 const require = createRequire(import.meta.url);
 // style files regexes
