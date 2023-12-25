@@ -14,5 +14,6 @@ declare namespace FastCli {
     env: Record<string, string>
   ) => FastConfig;
 
-  function defineConfig(callback: Callback): FastConfig;
+  function defineConfig(config: FastConfig): FastConfig;
+  function defineConfig(callback: Callback): Callback;
 }

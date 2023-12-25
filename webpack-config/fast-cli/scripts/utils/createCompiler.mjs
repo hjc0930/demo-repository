@@ -3,6 +3,7 @@ import formatWebpackMessages from "./formatMessage.mjs";
 import { networkInterfaces } from "node:os";
 import logger from "./logger.mjs";
 
+const start = process.env.START;
 const isInteractive = process.stdout.isTTY;
 let isFirstCompile = true;
 
@@ -28,30 +29,38 @@ const getInternalIpAddress = () => {
   }
   return networks;
 };
-
-const printInstructions = () => {
-  const networks = getInternalIpAddress();
+/**
+ * @param {import("webpack-dev-server").Configuration} devServer
+ */
+const printInstructions = (devServer) => {
+  const { port = 8080, host = "127.0.0,1" } = devServer;
   console.log(
     logger.ready(
-      `App listening at local: ${chalk.bright("http://localhost:3000")}`
+      `App listening at local: ${chalk.blue(`http://localhost:${port}`)}`
     )
   );
-  networks.forEach((item) => {
-    console.log(
-      logger.ready(
-        `App listening at network: ${chalk.bright(`http://${item}:3000`)}`
-      )
-    );
-  });
+
+  if (!["127.0.0.1", "localhost"].includes(host)) {
+    const networks = getInternalIpAddress();
+
+    networks.forEach((item) => {
+      console.log(
+        logger.ready(
+          `App listening at network: ${chalk.blue(`http://${item}:${port}`)}`
+        )
+      );
+    });
+  }
 };
 
 /**
  *
  * @param {import("webpack").Configuration} config
+ * @param {import("webpack-dev-server").Configuration} devServer
  * @param {import("webpack")} webpack
  * @returns
  */
-const createCompiler = (config, webpack) => {
+const createCompiler = (config, devServer, webpack) => {
   let compiler;
   try {
     compiler = webpack(config);
@@ -79,10 +88,15 @@ const createCompiler = (config, webpack) => {
     if (isSuccessful && isInteractive) {
       const time = stats.endTime - stats.startTime;
       if (isFirstCompile) {
-        printInstructions();
-        console.log(logger.success(`Compiled successfully in ${time}ms`));
+        printInstructions(devServer);
+
+        if (start === "first") {
+          console.log(logger.success(`Compiled successfully in ${time}ms`));
+        } else if (start === "restart") {
+          console.log(logger.success(`Server restarted in ${time}ms.`));
+        }
       } else {
-        console.log(logger.success(`HMR completed,taking ${time}ms`));
+        console.log(logger.success(`HMR completed, taking ${time}ms`));
       }
     }
     isFirstCompile = false;

@@ -56,7 +56,6 @@ const imageInlineSizeLimit = 10000;
  * @returns {import("webpack").Configuration}
  */
 const configFactory = (mode) => {
-  console.log(logger.info("Creating configuration"));
   const isEnvProduction = mode === "production";
 
   return {

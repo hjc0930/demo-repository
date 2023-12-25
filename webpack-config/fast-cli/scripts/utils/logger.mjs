@@ -10,10 +10,10 @@ const chalkMap = {
 
 const logger = {};
 
-logger.info = (message) => `${chalkMap.info("info   ")} - ${message}`;
-logger.ready = (message) => `${chalkMap.ready("ready  ")} - ${message}`;
-logger.success = (message) => `${chalkMap.success("success")} - ${message}`;
-logger.warning = (message) => `${chalkMap.warning("warning")} - ${message}`;
-logger.error = (message) => `${chalkMap.error("error  ")} - ${message}`;
+logger.info = (message) => `${chalkMap.info("info ")} - ${message}`;
+logger.ready = (message) => `${chalkMap.ready("ready")} - ${message}`;
+logger.success = (message) => `${chalkMap.success("succ ")} - ${message}`;
+logger.warning = (message) => `${chalkMap.warning("warn ")} - ${message}`;
+logger.error = (message) => `${chalkMap.error("error")} - ${message}`;
 
 export default logger;
