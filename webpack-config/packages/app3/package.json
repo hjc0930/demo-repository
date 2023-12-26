@@ -1,5 +1,5 @@
 {
-  "name": "host",
+  "name": "app3",
   "private": true,
   "scripts": {
     "start": "fast-cli start"

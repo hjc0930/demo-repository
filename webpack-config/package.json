@@ -1,11 +1,23 @@
 {
   "name": "webpack-config",
-  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "pnpm -F app1 -F app2 start",
+    "build": "pnpm -r exec pnpm run build",
+    "start:app1": "pnpm -F app1 start",
+    "start:app2": "pnpm -F app2 start"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
+    "react-refresh": "^0.14.0",
+    "single-react-refresh-plugin": "^1.0.5",
+    "webpack": "^5.89.0",
     "webpack-merge": "^5.10.0"
   }
 }

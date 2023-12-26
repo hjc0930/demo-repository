@@ -16,4 +16,8 @@ declare namespace FastCli {
 
   function defineConfig(config: FastConfig): FastConfig;
   function defineConfig(callback: Callback): Callback;
+
+  class ModuleFederationPlugin {
+    constructor();
+  }
 }

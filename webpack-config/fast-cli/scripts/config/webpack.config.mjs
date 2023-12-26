@@ -31,7 +31,6 @@ import {
   sassRegex,
 } from "../utils/styles.mjs";
 import ModuleScopePlugin from "../utils/ModuleScopePlugin.mjs";
-import logger from "../utils/logger.mjs";
 
 const require = createRequire(import.meta.url);
 

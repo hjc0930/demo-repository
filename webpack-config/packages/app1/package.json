@@ -1,0 +1,16 @@
+{
+  "name": "app1",
+  "private": true,
+  "scripts": {
+    "start": "fast-cli start"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "fast-cli": "workspace:^",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17"
+  }
+}
