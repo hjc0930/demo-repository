@@ -7,9 +7,6 @@
     "start:app1": "pnpm -F app1 start",
     "start:app2": "pnpm -F app2 start"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "dependencies": {
     "lodash-es": "^4.17.21"
   },
@@ -17,6 +14,7 @@
     "@types/lodash-es": "^4.17.12",
     "react-refresh": "^0.14.0",
     "single-react-refresh-plugin": "^1.0.5",
+    "ts-node": "^10.9.2",
     "webpack": "^5.89.0",
     "webpack-merge": "^5.10.0"
   }
