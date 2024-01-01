@@ -3,16 +3,11 @@ package main
 import "fmt"
 
 func main() {
-	type person struct {
-		name, city string
-		age        int
+	sum := 0
+
+	for index := 0; index < 10; index++ {
+		sum += index
 	}
 
-	p1 := person{
-		name: "pprof.cn",
-		city: "BeiJing",
-		age:  18,
-	}
-
-	fmt.Println(p1)
+	fmt.Println("sum is equal to ", sum)
 }

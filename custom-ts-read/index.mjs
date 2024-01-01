@@ -12,9 +12,7 @@ const readTsFile = () => {
     },
   });
 
-  const result =
-    "data:text/javascript;base64," + encodeURIComponent(compiled.outputText);
-  import(result);
+  console.log(compiled);
 };
 
 readTsFile();

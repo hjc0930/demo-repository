@@ -1,3 +1,3 @@
-module demo
+module go-demo
 
 go 1.21.3
