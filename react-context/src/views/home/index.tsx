@@ -1,14 +1,26 @@
-import AddTask from "./AddTask";
-import TaskList from "./TaskList";
-import { TaskProvider } from "./TaskContext";
+import { Button, Form, Input } from "antd";
 
 function Home() {
+  const [form] = Form.useForm();
+
+  const getData = () => {
+    console.log(form.getFieldValue("name"));
+  };
+
   return (
-    <TaskProvider>
-      <h1>布拉格的行程安排</h1>
-      <AddTask />
-      <TaskList />
-    </TaskProvider>
+    <>
+      <Button onClick={getData}>Get</Button>
+      <Form form={form}>
+        <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
   );
 }
 
