@@ -1,5 +1,4 @@
-import { Button, Card, Form, Input, Space, Typography } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Button, Form, Input } from "antd";
 
 function Home() {
   const [form] = Form.useForm();
