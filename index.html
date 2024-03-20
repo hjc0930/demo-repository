@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function deepClone(target, hash = new WeakMap()) {
+    if (target === null) return null;
+    if (typeof target !== "object") return target;
+    if (target instanceof Date) return new Date(target);
+    if (target instanceof RegExp) return new RegExp(target);
+
+    if (hash.has(target)) return hash.get(target);
+
+    const cloneTarget = Array.isArray(target) ? [] : {};
+    hash.set(target, cloneTarget);
+
+    if (typeof target === "object") {
+      for (const key in target) {
+        cloneTarget[key] = deepClone(target[key], hash);
+      }
+      return cloneTarget;
+    } else {
+      return target;
+    }
+  }
+
+  const a = {
+    name: "张三",
+    score: {
+      math: 100,
+    },
+    fn: () => { },
+    date: new Date(),
+    regex: /^\d{3,4}-\d{5,8}$/,
+  };
+  a.child = a;
+  const b = deepClone(a);
+  console.log(b);
+</script>
+
+</html>
