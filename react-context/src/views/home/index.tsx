@@ -1,22 +1,7 @@
-import { Button, Form, Input } from "antd";
+import { Badge } from "antd";
 
 function Home() {
-  const [form] = Form.useForm();
-
-  return (
-    <Form
-      onFinish={(values) => {
-        console.log(values);
-      }}
-    >
-      <Form.Item>
-        <Input />
-      </Form.Item>
-      <Form.Item>
-        <Button htmlType="submit">Add</Button>
-      </Form.Item>
-    </Form>
-  );
+  return <Badge status="success" color="red" text="asdasdas" />;
 }
 
 export default Home;
