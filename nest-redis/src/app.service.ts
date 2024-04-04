@@ -7,8 +7,8 @@ export class AppService {
   private redisClient: RedisClientType;
 
   async getHello() {
-    const value = await this.redisClient.keys('*');
-    console.log(value);
+    // const value = await this.redisClient.keys('*');
+    // console.log(value);
     return 'Hello World!';
   }
 }

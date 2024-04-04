@@ -1,6 +1,15 @@
+import { useEffect } from "react";
 import yayJpg from "../assets/yay.jpg";
 
 export default function HomePage() {
+  const init = () => {
+    try {
+      fetch("http://localhost:3000");
+    } catch (error) {}
+  };
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <div>
       <h2>Yay! Welcome to umi!</h2>
