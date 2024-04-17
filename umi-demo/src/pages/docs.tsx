@@ -1,9 +1,20 @@
-const DocsPage = () => {
-  return (
-    <div>
-      <p>This is umi docs.</p>
-    </div>
-  );
+import React, { ForwardRefRenderFunction } from "react";
+
+interface MyComponentProps<T> {
+  data: T;
+}
+
+const MyComponent: ForwardRefRenderFunction<
+  HTMLDivElement,
+  MyComponentProps<any>
+> = (props, ref) => {
+  return <div ref={ref}>{props.data}</div>;
 };
 
-export default DocsPage;
+const MyComponentWithRef = React.forwardRef(MyComponent);
+
+export default MyComponentWithRef;
+
+const a = () => {
+  return <MyComponentWithRef data="Hello" />;
+};
