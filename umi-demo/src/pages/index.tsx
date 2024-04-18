@@ -1,14 +1,20 @@
-import { useEffect } from "react";
-import yayJpg from "../assets/yay.jpg";
-import { Pagination } from "antd";
+import React from "react";
+import Table from "@/components/Table";
 
-export default function HomePage() {
-  return (
-    <div>
-      <h2>Yay! Welcome to umi!</h2>
-      <p>
-        <img src={yayJpg} width="388" />
-      </p>
-    </div>
-  );
-}
+const App: React.FC = () => {
+  const data = [
+    { name: "John", age: 28, job: "Engineer" },
+    { name: "Jane", age: 24, job: "Designer" },
+    { name: "Doe", age: 32, job: "Teacher" },
+  ];
+
+  const columns = [
+    { key: "name", title: "Name" },
+    { key: "age", title: "Age", sorter: (a: any, b: any) => a.age - b.age },
+    { key: "job", title: "Job" },
+  ];
+
+  return <Table data={data} columns={columns} />;
+};
+
+export default App;
