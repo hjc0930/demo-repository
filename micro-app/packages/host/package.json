@@ -1,9 +1,0 @@
-{
-  "name": "host",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "start": "cross-env webpack serve --config ./script/config/webpack.config.ts --env development",
-    "build": "cross-env webpack --config ./script/config/webpack.config.ts --env production"
-  }
-}
