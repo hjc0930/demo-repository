@@ -13,7 +13,7 @@ logging:
     com.hjc.demo.mappers: debug
 
 page helper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

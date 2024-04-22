@@ -14,7 +14,10 @@ public class StudentController {
     private StudentServiceImpl studentServiceImpl;
 
     @GetMapping
-    public PaginationResult<Student> findAll(@RequestParam Integer page, @RequestParam Integer pageSize) {
+    public PaginationResult<Student> findAll(
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize
+    ) {
         return  studentServiceImpl.findAll(page, pageSize);
     }
 }
