@@ -2,6 +2,7 @@ import java.sql.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,7 +10,6 @@ public class Main {
         int page = 2;
         int pageSize = 3;
 
-        List<Integer> list = listArr.stream().skip((page - 1) * pageSize).limit(pageSize).toList();
-        System.out.println(list);
+        listArr.stream().skip((page - 1) * pageSize).limit(pageSize).forEach(System.out::println);
     }
 }
