@@ -22,9 +22,9 @@ public class StudentServiceImpl implements StudentService {
         PageHelper.startPage(page, pageSize);
         List<Student> studentList = studentMapper.findAll();
         PageInfo<Student> studentPageInfo = new PageInfo<>(studentList);
-
         Optional<PageInfo<Student>> studentOptional = Optional.ofNullable(studentPageInfo);
-        PaginationResult<Student> studentPagination = studentOptional
+
+        return studentOptional
                 .map(item -> PaginationResult
                 .<Student>builder()
                 .page(item.getPageNum())
@@ -33,7 +33,5 @@ public class StudentServiceImpl implements StudentService {
                 .list(item.getList())
                 .build()
         ).orElse(null);
-
-        return studentPagination;
     }
 }

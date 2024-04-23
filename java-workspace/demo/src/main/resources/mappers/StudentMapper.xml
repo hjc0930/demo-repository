@@ -16,7 +16,6 @@
     <select id="findAll" resultMap="studentMap">
         SELECT S.id as student_id, S.name, S.age, S.gender, S.sClass, S.score, A.id as account_id, A.account
         FROM student S
-            LEFT JOIN account A
-            ON S.account_id = A.id
+        LEFT JOIN account A ON S.account_id = A.id
     </select>
 </mapper>
