@@ -28,7 +28,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-function Modal(props: ModalProps) {
+const Modal = (props: ModalProps) => {
   const {
     open = false,
     title,
@@ -68,6 +68,6 @@ function Modal(props: ModalProps) {
       <DialogActions>{Footer}</DialogActions>
     </BootstrapDialog>
   );
-}
+};
 
 export default Modal;

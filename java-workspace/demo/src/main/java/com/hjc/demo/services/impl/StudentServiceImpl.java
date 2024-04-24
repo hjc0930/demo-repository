@@ -6,7 +6,7 @@ import com.hjc.demo.mappers.StudentMapper;
 import com.hjc.demo.dto.PaginationResult;
 import com.hjc.demo.pojo.Student;
 import com.hjc.demo.services.StudentService;
-import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    @Resource
+    @Autowired
     private StudentMapper studentMapper;
 
     @Override

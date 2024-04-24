@@ -1,5 +1,5 @@
-import { Button } from "antd";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { Button } from "antd";
 
 export const HeadContext = createContext<any>(0);
 
@@ -15,12 +15,13 @@ const Child2 = () => {
 
   return null;
 };
+
 const HeadProvider = (props: PropsWithChildren) => {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <Button onClick={() => setCount((count) => count + 1)}>Count</Button>
+      <Button onClick={() => setCount((count) => count + 1)}>Add</Button>
       <HeadContext.Provider value={count}>
         {props.children}
       </HeadContext.Provider>
@@ -30,10 +31,12 @@ const HeadProvider = (props: PropsWithChildren) => {
 
 function App() {
   return (
-    <HeadProvider>
-      <Child1 />
-      <Child2 />
-    </HeadProvider>
+    <>
+      <HeadProvider>
+        <Child1 />
+        <Child2 />
+      </HeadProvider>
+    </>
   );
 }
 

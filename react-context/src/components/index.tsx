@@ -25,7 +25,7 @@ const ElementHolder = memo(
   })
 );
 
-function useModal(): [
+function useModal(): readonly [
   instance: {
     confirm: () => void;
   },
