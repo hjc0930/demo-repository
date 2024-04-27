@@ -1,13 +1,12 @@
 package main
 
-import "fmt"
+type UserType struct {
+	id      int
+	name    string
+	age     int
+	address string
+}
 
 func main() {
-	sum := 0
 
-	for index := 0; index < 10; index++ {
-		sum += index
-	}
-
-	fmt.Println("sum is equal to ", sum)
 }
