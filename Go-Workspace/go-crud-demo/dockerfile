@@ -1,0 +1,17 @@
+# 构建阶段
+FROM golang AS builder
+
+WORKDIR $GOPATH/src/gin
+ADD . $GOPATH/src/gin
+
+RUN go env -w GO111MODULE=auto
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+
+# 运行阶段
+FROM alpine:latest
+
+WORKDIR /app
+COPY --from=builder /go/src/gin/app .
+EXPOSE 8080
+ENTRYPOINT ["./app"]

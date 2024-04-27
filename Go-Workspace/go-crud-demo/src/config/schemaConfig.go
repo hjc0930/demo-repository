@@ -12,7 +12,7 @@ import (
 
 func CreateSchema() (db *gorm.DB, sqlDb *sql.DB) {
 	// Connect to database
-	dsn := "root:123456@tcp(127.0.0.1:3306)/practice?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:123456@tcp(192.168.124.5:3306)/demo?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
