@@ -1,43 +1,62 @@
-import { Button, Card, Form, Input, Space, Table, TableProps } from "antd";
-import useExpandable from "./useExpandable";
+import { Table } from "antd";
+import { isUS_Dst } from "./utils/time-zome";
+
+function getUTCTime() {
+  let d1 = new Date();
+  return +new Date(
+    d1.getUTCFullYear(),
+    d1.getUTCMonth(),
+    d1.getUTCDate(),
+    d1.getUTCHours(),
+    d1.getUTCMinutes(),
+    d1.getUTCSeconds()
+  );
+}
+
+const getESTDate = (datePara?: any) => {
+  datePara = datePara ? datePara : new Date();
+  return Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: "America/New_York",
+    timeZoneName: "shortOffset",
+  }).format(new Date());
+};
 
 function App() {
-  const [expandColumn] = useExpandable(true);
+  const getDate = getESTDate();
 
-  const dataSource = [
-    {
-      key: "1",
-      name: "胡彦斌",
-      age: 32,
-      address: "西湖区湖底公园1号",
-    },
-    {
-      key: "2",
-      name: "胡彦祖",
-      age: 42,
-      address: "西湖区湖底公园1号",
-    },
-  ];
+  console.log({ getDate });
 
-  const columns: TableProps["columns"] = [
-    {
-      title: "姓名",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "年龄",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "住址",
-      dataIndex: "address",
-      key: "address",
-    },
-  ];
-
-  return <Table dataSource={dataSource} columns={columns} />;
+  return <Table />;
 }
 
 export default App;
+
+// const utcDate = new Date().toUTCString();
+// const estDate = new Date().toLocaleString("en-US", {
+//   timeZone: "America/New_York",
+// });
+
+// const options: any = {
+//   year: "numeric",
+//   month: "numeric",
+//   day: "numeric",
+//   hour: "numeric",
+//   minute: "numeric",
+//   second: "numeric",
+//   timeZoneName: "longGeneric",
+// };
+
+// const date = Intl.DateTimeFormat("en-US", {
+//   ...options,
+// }).format(new Date());
+// const estDateIntl = new Intl.DateTimeFormat("en-US", {
+//   ...options,
+//   timeZone: "America/New_York",
+// }).format(new Date("4/30/2024, 5:52:51 AM"));
+
+// console.log({ date, estDateIntl });
