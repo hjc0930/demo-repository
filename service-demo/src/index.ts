@@ -1,14 +1,30 @@
 import fastifyInstance from "fastify";
+import { bootstrap } from "fastify-decorators";
 import process from "node:process";
-import { getHello } from "./routers/user";
-import readEnvriment from "../config/readEnvriment";
+import { readdir } from "fs/promises";
+import UserRouter from "./routers/user";
 
 const fastify = fastifyInstance({ logger: true });
+fastify.register(bootstrap, {
+  controllers: [UserRouter],
+});
+fastify;
 
-fastify.get("/", getHello);
+fastify.register(import("@fastify/cors"), {
+  origin: "*",
+});
 
 const start = async () => {
-  readEnvriment();
+  const files = await readdir("./src/routers");
+  files.forEach(async (file) => {
+    const router = await import(`./routers/${file}`);
+
+    const re: UserRouter = Reflect.construct(router.default, []);
+    console.log(re.getHello());
+
+    fastify.register(router.default);
+  });
+
   try {
     await fastify.listen({
       port: 3000,
