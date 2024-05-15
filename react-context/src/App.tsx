@@ -1,4 +1,4 @@
-import { Pagination, Table } from "antd";
+import { Input, Pagination, Radio, Table, Breadcrumb } from "antd";
 
 const getESTDate = (datePara?: any) => {
   datePara = datePara ? datePara : new Date();
@@ -14,24 +14,53 @@ const getESTDate = (datePara?: any) => {
 };
 
 function App() {
-  console.log(
-    Intl.DateTimeFormat("en-us", {
-      timeZone: "America/New_York",
-      timeZoneName: "longOffset",
-    }).format(new Date())
-  );
+  // console.log(
+  //   Intl.DateTimeFormat("en-us", {
+  //     timeZone: "America/New_York",
+  //     timeZoneName: "longOffset",
+  //   }).format(new Date())
+  // );
 
   return (
-    <Pagination
-      pageSize={50}
-      total={40}
-      size="small"
-      showTotal={(total, range) => {
-        console.log(total, range);
+    <>
+      <Breadcrumb
+        params={{ a: 1, b: 2 }}
+        itemRender={(currentRoute, params, items, paths) => {
+          console.log({ currentRoute, params, items, paths });
 
-        return `${range[0]}-${range[1]} of ${total} items`;
-      }}
-    />
+          return null;
+        }}
+        items={[
+          {
+            title: "A",
+            key: 1,
+
+            path: "/a",
+          },
+          {
+            title: "B",
+            key: 2,
+            path: "/b",
+          },
+          {
+            title: "C",
+            key: 3,
+            path: "c",
+          },
+        ]}
+      />
+      {/* <Pagination
+        pageSize={50}
+        total={40}
+        size="small"
+        showTotal={(total, range) => {
+          console.log(total, range);
+
+          return `${range[0]}-${range[1]} of ${total} items`;
+        }}
+      /> */}
+      <Input readOnly />
+    </>
   );
 }
 

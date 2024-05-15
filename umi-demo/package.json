@@ -9,9 +9,13 @@
   },
   "dependencies": {
     "antd": "^5.16.2",
+    "html-to-pdfmake": "^2.5.8",
+    "pdfmake": "^0.2.10",
     "umi": "^4.0.90"
   },
   "devDependencies": {
+    "@types/html-to-pdfmake": "^2.4.4",
+    "@types/pdfmake": "^0.2.9",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "typescript": "^5.3.3"

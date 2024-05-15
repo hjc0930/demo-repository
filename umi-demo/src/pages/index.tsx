@@ -1,20 +1,48 @@
-import React from "react";
-import Table from "@/components/Table";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import htmlToPdf from "html-to-pdfmake";
 
-const App: React.FC = () => {
-  const data = [
-    { name: "John", age: 28, job: "Engineer" },
-    { name: "Jane", age: 24, job: "Designer" },
-    { name: "Doe", age: 32, job: "Teacher" },
-  ];
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-  const columns = [
-    { key: "name", title: "Name" },
-    { key: "age", title: "Age", sorter: (a: any, b: any) => a.age - b.age },
-    { key: "job", title: "Job" },
-  ];
-
-  return <Table data={data} columns={columns} />;
-};
+function App() {
+  function printPDF() {
+    const options = htmlToPdf(``);
+    pdfMake
+      .createPdf({
+        content: [
+          {
+            canvas: [
+              {
+                type: "c",
+              },
+            ],
+          },
+        ],
+      })
+      .download();
+  }
+  return (
+    <div className="App">
+      <button onClick={printPDF}>printPDF</button>
+      <canvas
+        data-zr-dom-id="zr_0"
+        width="990"
+        height="1090"
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: 495,
+          height: 545,
+          userSelect: "none",
+          WebkitTapHighlightColor: "rgba(0, 0, 0, 0)",
+          padding: 0,
+          margin: 0,
+          borderWidth: 0,
+        }}
+      ></canvas>
+    </div>
+  );
+}
 
 export default App;
