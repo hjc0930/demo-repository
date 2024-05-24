@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "vite --mode dev",
+    "build": "vite build",
     "preview": "vite preview",
     "start": "npm run dev",
     "test": "vitest",

@@ -1,5 +1,5 @@
 import { Modal, ModalProps } from "antd";
-import React, { ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface ConfirmProps {
   title?: ReactNode;
