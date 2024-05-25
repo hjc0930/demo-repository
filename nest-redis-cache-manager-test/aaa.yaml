@@ -1,7 +1,0 @@
-application:
-  host: 'localhost'
-  port: 8080
-aaa:
-  bbb:
-    ccc: 'ccc'
-    port: 3306
