@@ -1,11 +1,9 @@
-import { HeadContext } from "@/App";
-import { useContext } from "react";
-
 const Child1 = () => {
-  const count = useContext(HeadContext);
-
-  console.log("Child1");
-  return <div>{count}</div>;
+  return <div>Child1</div>;
 };
 
-export default Child1;
+const Child2 = () => {
+  return <div>Child2</div>;
+};
+
+export { Child1, Child2 };

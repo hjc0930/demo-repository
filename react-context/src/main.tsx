@@ -1,9 +1,4 @@
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import { createRoot } from "react-dom/client";
+import { Child1 } from "./components/Child-1";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-);
+createRoot(document.getElementById("root") as HTMLElement).render(<Child1 />);

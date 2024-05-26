@@ -10,4 +10,16 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        globals: {
+          react: "React",
+        },
+        manualChunks: {
+          "react-bundle": ["react", "react-dom"],
+        },
+      },
+    },
+  },
 });
