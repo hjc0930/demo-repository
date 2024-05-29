@@ -30,16 +30,16 @@ function createBrowserRouter(
       const Default = module.default;
       /**
        * TODO: 约定式路由未实现的功能:
-       * 1.路由懒加载的实现
-       * 2. loader函数的实现
        * 3.嵌套路由的实现
        */
       // const context = module.context;
-      // const loader = module.loader;
+      const loader = module.loader;
 
       return {
         path,
         element: <Default />,
+        loader,
+        errorElement: <>This is a Error Message</>,
       };
     }
   );
