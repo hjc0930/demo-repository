@@ -15,11 +15,7 @@ export class StudentService {
   }
 
   findAll() {
-    return this.studentRepository.find({});
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+    return this.studentRepository.find();
   }
 
   findPage(page: number, pageSize: number) {
@@ -27,6 +23,10 @@ export class StudentService {
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} student`;
   }
 
   update(id: number, updateStudentDto: UpdateStudentDto) {
