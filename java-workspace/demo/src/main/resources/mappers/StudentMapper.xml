@@ -8,14 +8,14 @@
         <result property="age" column="age"></result>
         <result property="score" column="score"></result>
         <result property="sClass" column="sClass"></result>
-        <association property="accountInfo" javaType="com.hjc.demo.pojo.Account">
-            <id property="id" column="account_id"></id>
-            <result property="account" column="account"></result>
-        </association>
+<!--        <association property="accountInfo" javaType="com.hjc.demo.pojo.Account">-->
+<!--            <id property="id" column="account_id"></id>-->
+<!--            <result property="account" column="account"></result>-->
+<!--        </association>-->
     </resultMap>
     <select id="findAll" resultMap="studentMap">
-        SELECT S.id as student_id, S.name, S.age, S.gender, S.sClass, S.score, A.id as account_id, A.account
+        SELECT S.id as student_id, S.name, S.age, S.gender, S.class as sClass, S.score
         FROM student S
-        LEFT JOIN account A ON S.account_id = A.id
+--         LEFT JOIN account A ON S.account_id = A.id
     </select>
 </mapper>

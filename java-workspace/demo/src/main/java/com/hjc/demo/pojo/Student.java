@@ -12,5 +12,5 @@ public class Student {
     private Integer age;
     private String sClass;
     private Integer score;
-    private Account accountInfo;
+//    private Account accountInfo;
 }
