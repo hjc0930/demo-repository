@@ -31,16 +31,12 @@ export class StudentController {
 
   @Get('page')
   async findPage(
-    @Query('query', new DefaultValuePipe({ page: 1, pageSize: 2 }))
-    query: {
-      page: number;
-      pageSize: number;
-    },
+    @Query('page', new DefaultValuePipe(1))
+    page: number,
+    @Query('pageSize', new DefaultValuePipe(5))
+    pageSize: number,
   ) {
-    const result = await this.studentService.findPage(
-      query.page,
-      query.pageSize,
-    );
+    const result = await this.studentService.findPage(page, pageSize);
 
     return {
       total: result[1],
