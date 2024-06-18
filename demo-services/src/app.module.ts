@@ -1,33 +1,35 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StudentModule } from './student/student.module';
-import { Student } from './student/entities/student.entity';
+import { StudentModule } from './modules/student/student.module';
+import { Student } from './modules/student/entities/student.entity';
+import { ConfigModule } from '@nestjs/config';
+import { RolesModule } from './modules/roles/roles.module';
+import config from './config';
 
 @Module({
   imports: [
-    UserModule,
+    ConfigModule.forRoot({
+      ignoreEnvFile: true,
+      isGlobal: true,
+      load: [config],
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '192.168.124.5',
       port: 3306,
       username: 'root',
       password: '123456',
       database: 'demo',
-      synchronize: true,
+      synchronize: false,
       logging: true,
       entities: [Student],
       poolSize: 10,
       connectorPackage: 'mysql2',
-      extra: {
-        authPlugin: 'sha256_password',
-      },
     }),
+    UserModule,
     StudentModule,
+    RolesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
