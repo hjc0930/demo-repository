@@ -3,29 +3,33 @@ import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentModule } from './modules/student/student.module';
 import { Student } from './modules/student/entities/student.entity';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolesModule } from './modules/roles/roles.module';
-import config from './config';
+import getConfigPath from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      ignoreEnvFile: true,
       isGlobal: true,
-      load: [config],
+      envFilePath: [getConfigPath()],
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: '192.168.124.5',
-      port: 3306,
-      username: 'root',
-      password: '123456',
-      database: 'demo',
-      synchronize: false,
-      logging: true,
-      entities: [Student],
-      poolSize: 10,
-      connectorPackage: 'mysql2',
+    TypeOrmModule.forRootAsync({
+      useFactory: (configService: ConfigService) => {
+        return {
+          host: configService.get('mysql_host'),
+          port: configService.get('mysql_port'),
+          username: configService.get('mysql_username'),
+          password: configService.get('mysql_password'),
+          database: configService.get('mysql_database'),
+          type: 'mysql',
+          synchronize: false,
+          logging: true,
+          entities: [Student],
+          poolSize: 10,
+          connectorPackage: 'mysql2',
+        };
+      },
+      inject: [ConfigService],
     }),
     UserModule,
     StudentModule,

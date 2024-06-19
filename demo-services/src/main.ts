@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import getConfig from './config';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const config = getConfig();
+  const configService = app.get(ConfigService);
+  const port = configService.get('app_port');
 
   app.enableCors({
     origin: '*',
@@ -12,6 +13,6 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Accept, Authorization',
   });
 
-  await app.listen(parseInt(config.application.port, 10) || 3000);
+  await app.listen(port);
 }
 bootstrap();
