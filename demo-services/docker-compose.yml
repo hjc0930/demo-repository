@@ -1,13 +1,16 @@
 version: '3.8'
+name: server-compse
 
 services:
-  nest-app-container:
+  nest-app:
     build:
       context: .
       dockerfile: Dockerfile
     image: nest-app-image
-    container_name: nest-app-container
+    container_name: nest-app
+    restart: always
     ports:
       - '3000:3000'
     volumes:
       - "./dist:/app/dist"
+

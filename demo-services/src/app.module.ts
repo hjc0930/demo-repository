@@ -6,8 +6,10 @@ import { Student } from './modules/student/entities/student.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolesModule } from './modules/roles/roles.module';
 import getConfigPath from './config';
+import { AppController } from './app.controller';
 
 @Module({
+  controllers: [AppController],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
