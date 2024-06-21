@@ -2,12 +2,12 @@ version: '3.8'
 name: server-compse
 
 services:
-  nest-app:
+  nodejs-service:
     build:
       context: .
       dockerfile: Dockerfile
     image: nest-app-image
-    container_name: nest-app
+    container_name: nodejs-service
     restart: always
     ports:
       - '3000:3000'
