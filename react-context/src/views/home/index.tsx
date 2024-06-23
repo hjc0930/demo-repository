@@ -1,54 +1,32 @@
-import {
-  Form,
-  Field,
-  FormElement,
-  FieldWrapper,
-} from "@progress/kendo-react-form";
-import { Input } from "@progress/kendo-react-inputs";
-import { Button } from "@progress/kendo-react-buttons";
+import { Button } from "antd";
+import useMessage from "@/components/Message/useMessage";
+import useAntdMessage from "antd/es/message/useMessage";
 
 const Home = () => {
-  const handleSubmit = (values: any) => {
-    console.log(values);
+  const [messageApi, contextHolder] = useMessage();
+  const [msgApi, ctxHolder] = useAntdMessage();
+
+  const handleOpen = () => {
+    // msgApi.open({
+    //   content: "Hellow",
+    //   duration: 0,
+    // });
+    messageApi
+      .open({
+        content: "Hellow",
+        duration: 0,
+      })
+      .then((r) => {
+        console.log(r);
+      });
   };
 
   return (
-    <Form
-      onSubmit={handleSubmit}
-      render={(formRenderProps) => (
-        <FormElement
-          style={{
-            maxWidth: 650,
-          }}
-        >
-          <FieldWrapper>
-            <div className="k-form-field-wrap">
-              <Field
-                label={"First name"}
-                name={"firstName"}
-                component={Input}
-                labelClassName={"k-form-label"}
-              />
-            </div>
-          </FieldWrapper>
-          <FieldWrapper>
-            <div className="k-form-field-wrap">
-              <Field
-                name={"lastName"}
-                component={Input}
-                labelClassName={"k-form-label"}
-                label={"Last name"}
-              />
-            </div>
-          </FieldWrapper>
-          <div className="k-form-buttons">
-            <Button type={"submit"} disabled={!formRenderProps.allowSubmit}>
-              Submit
-            </Button>
-          </div>
-        </FormElement>
-      )}
-    />
+    <>
+      <Button onClick={handleOpen}>Open</Button>
+      {contextHolder}
+      {ctxHolder}
+    </>
   );
 };
 
