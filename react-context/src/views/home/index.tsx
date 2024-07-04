@@ -1,31 +1,45 @@
 import { Button } from "antd";
-import useMessage from "@/components/Message/useMessage";
-import useAntdMessage from "antd/es/message/useMessage";
+import { notification } from "antd";
 
 const Home = () => {
-  const [messageApi, contextHolder] = useMessage();
-  const [msgApi, ctxHolder] = useAntdMessage();
+  const [api, contextHolder] = notification.useNotification();
+
+  // const a: CSSMotionProps = {};
 
   const handleOpen = () => {
+    api.open({
+      message: "DemoDemoDemo",
+      duration: 0,
+      placement: "top",
+    });
+
+    // setTimeout(() => {
+    //   console.log("timeout");
+
+    //   result();
+    // }, 3000);
+
+    // console.log(remove);
+
     // msgApi.open({
     //   content: "Hellow",
     //   duration: 0,
     // });
-    messageApi
-      .open({
-        content: "Hellow",
-        duration: 0,
-      })
-      .then((r) => {
-        console.log(r);
-      });
+    // messageApi
+    //   .open({
+    //     content: "Hellow",
+    //     duration: 0,
+    //   })
+    //   .then((r) => {
+    //     console.log(r);
+    //   });
   };
 
   return (
     <>
       <Button onClick={handleOpen}>Open</Button>
+      {/* {contextHolder} */}
       {contextHolder}
-      {ctxHolder}
     </>
   );
 };

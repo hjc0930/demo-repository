@@ -1,18 +1,27 @@
-import { useEffect } from "react";
+import {
+  ForwardRefRenderFunction,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+} from "react";
 import "./index.css";
 import { MessageProps } from "./types";
 
-const Message = (props: MessageProps) => {
+export interface MessageRef {
+  remove: () => void;
+}
+
+const Message: ForwardRefRenderFunction<MessageRef, MessageProps> = (
+  props,
+  ref
+) => {
   const { type, content } = props;
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   console.log(onResolve);
-    // }, 3000);
-    return () => {
-      console.log(123123);
-    };
-  }, []);
+  useImperativeHandle(ref, () => ({
+    remove: () => {
+      console.log(12213);
+    },
+  }));
 
   return (
     <div className="message-container">
@@ -25,4 +34,4 @@ const Message = (props: MessageProps) => {
   );
 };
 
-export default Message;
+export default forwardRef(Message);
