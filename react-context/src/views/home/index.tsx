@@ -5,20 +5,19 @@ import "./index.css";
 const Home = () => {
   const [api, contextHolder] = notification.useNotification();
 
-  // const a: CSSMotionProps = {};
-
   const handleOpen = () => {};
 
   return (
     <>
+      {contextHolder}
       <ul className="aaa-btn">
         <li>1</li>
         <li>2</li>
         <li>3</li>
       </ul>
-      <Button onClick={handleOpen}>Open</Button>
-      {/* {contextHolder} */}
-      {contextHolder}
+      <Button type="primary" onClick={handleOpen}>
+        Open
+      </Button>
     </>
   );
 };
