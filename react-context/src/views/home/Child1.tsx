@@ -1,17 +1,9 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+const Child1 = (props: { handleAdd: () => void }) => {
+  const { handleAdd } = props;
 
-const Child1 = forwardRef((_, ref) => {
-  const [count, setCount] = useState(0);
+  console.log(handleAdd);
 
-  const handleAdd = () => {
-    setCount((val) => val + 1);
-  };
-
-  useImperativeHandle(ref, () => ({
-    handleAdd,
-  }));
-
-  return <div onClick={() => handleAdd?.()}>Child1 - {count}</div>;
-});
+  return <div>Child1</div>;
+};
 
 export default Child1;
