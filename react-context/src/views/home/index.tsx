@@ -1,23 +1,15 @@
-import { Button } from "antd";
-import { notification } from "antd";
 import "./index.css";
+import Child1 from "./Child1";
+import Child2 from "./Child2";
+import { useRef } from "react";
 
 const Home = () => {
-  const [api, contextHolder] = notification.useNotification();
-
-  const handleOpen = () => {};
+  const ref2 = useRef<{ handleAdd: () => void }>(null);
 
   return (
     <>
-      {contextHolder}
-      <ul className="aaa-btn">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-      </ul>
-      <Button type="primary" onClick={handleOpen}>
-        Open
-      </Button>
+      <Child1 ref={ref2} />
+      <Child2 handleAdd={ref2?.current?.handleAdd} />
     </>
   );
 };
