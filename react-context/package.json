@@ -32,7 +32,7 @@
     "@progress/kendo-theme-default": "^8.0.1",
     "@time-zone/date": "^2.2.2",
     "ahooks": "^3.7.11",
-    "antd": "^5.11.0",
+    "antd": "^5.20.6",
     "classnames": "^2.5.1",
     "lodash-es": "^4.17.21",
     "moment-timezone": "^0.5.45",
