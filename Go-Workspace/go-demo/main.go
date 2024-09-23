@@ -1,19 +1,33 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
-func hanoi(n int, pillarStart string, pillarMid string, pillarTarget string) {
-	if n == 2 {
-		fmt.Printf("%s -> %s\n", pillarStart, pillarMid)
-		fmt.Printf("%s -> %s\n", pillarStart, pillarTarget)
-		fmt.Printf("%s -> %s\n", pillarMid, pillarTarget)
-		return
+type MemberInfo struct {
+	Total     uint64
+	Free      uint64
+	Available uint64
+}
+
+func getMemberInfo() MemberInfo {
+	var memberInfo runtime.MemStats
+
+	runtime.ReadMemStats(&memberInfo)
+
+	return MemberInfo{
+		Total:     memberInfo.TotalAlloc,
+		Free:      memberInfo.Frees,
+		Available: memberInfo.Alloc,
 	}
-	hanoi(n-1, pillarStart, pillarTarget, pillarMid)
-	fmt.Printf("%s -> %s\n", pillarStart, pillarTarget)
-	hanoi(n-1, pillarMid, pillarStart, pillarTarget)
+
 }
 
 func main() {
-	hanoi(4, "A", "B", "C")
+	memberInfo := getMemberInfo()
+
+	fmt.Println("Total Memory Allocated:", memberInfo.Total/1024)
+	fmt.Println("Total Memory Free:", memberInfo.Free/1024)
+	fmt.Println("Total Memory Available:", memberInfo.Available/1024)
 }
