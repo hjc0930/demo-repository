@@ -8,10 +8,7 @@ interface ConfirmProps {
   onCancel?: () => void;
 }
 
-const useConfirm = (): readonly [
-  (props: ConfirmProps) => void,
-  JSX.Element
-] => {
+const useConfirm = () => {
   const [propsState, setPropsState] = useState<ModalProps>({});
 
   const confirm = (props: ConfirmProps) => {
@@ -35,7 +32,7 @@ const useConfirm = (): readonly [
   };
   const context = <Modal {...propsState} destroyOnClose />;
 
-  return [confirm, context];
+  return [confirm, context] as const;
 };
 
 export default useConfirm;
