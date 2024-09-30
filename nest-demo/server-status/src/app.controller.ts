@@ -7,6 +7,26 @@ import * as nodeDiskInfo from 'node-disk-info';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Get('list')
+  getList() {
+    return [
+      {
+        id: 1,
+        name: 'test-1',
+        status: 'active',
+      },
+      {
+        id: 2,
+        name: 'test-2',
+        status: 'active',
+      },
+      {
+        id: 3,
+        name: 'test-3',
+        status: 'active',
+      },
+    ];
+  }
   @Get()
   getHello(): string {
     return this.appService.getHello();
