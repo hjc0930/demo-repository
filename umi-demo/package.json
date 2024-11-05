@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "antd": "^5.16.2",
+    "date-fns": "^4.1.0",
     "html-to-pdfmake": "^2.5.8",
     "pdfmake": "^0.2.10",
     "umi": "^4.0.90"

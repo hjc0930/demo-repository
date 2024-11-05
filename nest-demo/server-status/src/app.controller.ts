@@ -1,11 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as os from 'node:os';
 import * as nodeDiskInfo from 'node-disk-info';
+import { LoginGuard } from './guards/login.guard';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
+
+  @Get('bbb')
+  @UseGuards(LoginGuard)
+  bbb() {
+    return 'bbb';
+  }
 
   @Get('list')
   getList() {
