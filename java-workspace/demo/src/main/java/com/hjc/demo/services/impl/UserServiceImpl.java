@@ -4,6 +4,7 @@ import com.hjc.demo.dto.UserFindPageDto;
 import com.hjc.demo.mappers.UserMapper;
 import com.hjc.demo.pojo.User;
 import com.hjc.demo.services.UserService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     @Override

@@ -1,10 +1,4 @@
-import {
-  render,
-  screen,
-  renderHook,
-  waitFor,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, renderHook, cleanup } from "@testing-library/react";
 import App from "./App";
 import useCount from "./hooks/useCount";
 import { act } from "react-dom/test-utils";
