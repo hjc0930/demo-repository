@@ -1,2 +1,2 @@
-export { default as useDemo } from "./hooks/useDemo";
-export { default as Button, type ButtonProps } from "./components/Button";
+export { default as a } from "./a";
+export { default as b } from "./b";

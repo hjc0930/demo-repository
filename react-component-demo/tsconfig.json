@@ -7,7 +7,7 @@
       "ESNext"
     ],
     "declaration": true,
-    "declarationDir": "./dist",
+    "declarationDir": "./es",
     "emitDeclarationOnly": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -28,6 +28,8 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "node_modules",
-    "dist"
+    "dist",
+    "es",
+    "lib"
   ]
 }

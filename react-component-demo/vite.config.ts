@@ -18,61 +18,45 @@ export default defineConfig({
     minify: true,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
-      fileName: "react-component-demo",
-      name: "ReactComponentDemo",
-      formats: ["es"],
+      fileName: () => "demo.min.js",
     },
     rollupOptions: {
-      external: ["react", "node_modules"],
-
-      output: {
-        // 在 UMD 构建模式下为这些外部化的依赖
-        // 提供一个全局变量
-        globals: Object.keys(packageFile.dependencies || {}).reduce(
-          (acc, item) => {
-            acc[item] = item;
-            return acc;
-          },
-          {}
+      external: [
+        /node_modules/,
+        ...Object.keys(packageFile.dependencies || {}).map((item) =>
+          createExternalRegExp(item)
         ),
-      },
-
-      // external: [
-      //   /node_modules/,
-      //   ...Object.keys(packageFile.dependencies || {}).map((item) =>
-      //     createExternalRegExp(item)
-      //   ),
-      // ],
-      // output: [
-      //   {
-      //     dir: resolve(__dirname, "dist"),
-      //     format: "umd",
-      //     name: "demo",
-      //     globals: Object.keys(packageFile.dependencies || {}).reduce(
-      //       (acc, item) => {
-      //         acc[item] = item;
-      //         return acc;
-      //       },
-      //       {}
-      //     ),
-      //   },
-      //   {
-      //     dir: resolve(__dirname, "es"),
-      //     preserveModules: true,
-      //     format: "es",
-      //     preserveModulesRoot: "src",
-      //     entryFileNames: "[name].js",
-      //     chunkFileNames: "[name].js",
-      //   },
-      //   {
-      //     dir: resolve(__dirname, "lib"),
-      //     format: "cjs",
-      //     preserveModules: true,
-      //     preserveModulesRoot: "src",
-      //     entryFileNames: "[name].js",
-      //     chunkFileNames: "[name].js",
-      //   },
-      // ],
+      ],
+      output: [
+        {
+          dir: resolve(__dirname, "dist"),
+          format: "umd",
+          name: "Demo",
+          globals: Object.keys(packageFile.dependencies || {}).reduce(
+            (acc, item) => {
+              acc[item] = item;
+              return acc;
+            },
+            {}
+          ),
+        },
+        {
+          dir: resolve(__dirname, "es"),
+          preserveModules: true,
+          format: "es",
+          preserveModulesRoot: "src",
+          entryFileNames: "[name].js",
+          chunkFileNames: "[name].js",
+        },
+        {
+          dir: resolve(__dirname, "lib"),
+          format: "cjs",
+          preserveModules: true,
+          preserveModulesRoot: "src",
+          entryFileNames: "[name].js",
+          chunkFileNames: "[name].js",
+        },
+      ],
     },
   },
 });

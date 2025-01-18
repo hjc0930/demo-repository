@@ -5,12 +5,18 @@
   "scripts": {
     "build": "gulp build && vite build && tsc"
   },
+  "sideEffects": false,
+  "unpkg": "./dist/demo.min.js",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
   "files": [
-    "dist"
+    "BUG_VERSIONS.json",
+    "dist",
+    "es",
+    "lib",
+    "locale"
   ],
-  "main": "./dist/react-component-demo.js",
-  "module": "./dist/react-component-demo.js",
-  "types": "./dist/index.d.ts",
   "license": "MIT",
   "description": "",
   "dependencies": {
