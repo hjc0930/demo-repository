@@ -6,10 +6,10 @@
     "build": "gulp build && vite build && tsc"
   },
   "sideEffects": false,
-  "unpkg": "./dist/demo.min.js",
-  "main": "./lib/index.js",
-  "module": "./es/index.js",
-  "types": "./es/index.d.ts",
+  "unpkg": "./dist/Demo.umd.cjs",
+  "main": "./dist/Demo.js",
+  "module": "./dist/Demo.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "BUG_VERSIONS.json",
     "dist",

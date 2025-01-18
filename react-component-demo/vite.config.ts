@@ -13,50 +13,11 @@ const createExternalRegExp = (dependencie: string) => {
 export default defineConfig({
   plugins: [react()],
   build: {
-    target: "modules",
-    emptyOutDir: false,
-    minify: true,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
-      fileName: () => "demo.min.js",
-    },
-    rollupOptions: {
-      external: [
-        /node_modules/,
-        ...Object.keys(packageFile.dependencies || {}).map((item) =>
-          createExternalRegExp(item)
-        ),
-      ],
-      output: [
-        {
-          dir: resolve(__dirname, "dist"),
-          format: "umd",
-          name: "Demo",
-          globals: Object.keys(packageFile.dependencies || {}).reduce(
-            (acc, item) => {
-              acc[item] = item;
-              return acc;
-            },
-            {}
-          ),
-        },
-        {
-          dir: resolve(__dirname, "es"),
-          preserveModules: true,
-          format: "es",
-          preserveModulesRoot: "src",
-          entryFileNames: "[name].js",
-          chunkFileNames: "[name].js",
-        },
-        {
-          dir: resolve(__dirname, "lib"),
-          format: "cjs",
-          preserveModules: true,
-          preserveModulesRoot: "src",
-          entryFileNames: "[name].js",
-          chunkFileNames: "[name].js",
-        },
-      ],
+      name: "Demo",
+      // 将添加适当的扩展名后缀
+      fileName: "Demo",
     },
   },
 });

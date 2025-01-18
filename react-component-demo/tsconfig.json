@@ -7,7 +7,7 @@
       "ESNext"
     ],
     "declaration": true,
-    "declarationDir": "./es",
+    "declarationDir": "./dist",
     "emitDeclarationOnly": true,
     "allowJs": true,
     "skipLibCheck": true,
