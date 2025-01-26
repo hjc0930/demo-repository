@@ -1,5 +1,9 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 
 const getRemote = (factory: () => Promise<{ default: any }>) => {
   const Remote = lazy(factory);
@@ -18,6 +22,10 @@ export const routerConfig = [
   {
     path: "/about",
     element: getRemote(() => import("about/Module")),
+  },
+  {
+    path: "/app1",
+    element: <Navigate to="/about" />,
   },
 ];
 
