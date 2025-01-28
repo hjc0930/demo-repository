@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { routerConfig } from "../src/router/index"; // 假设 index.tsx 文件导出 Router
-import { describe, expect, test, vi } from "vitest";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
 describe("Router", () => {
