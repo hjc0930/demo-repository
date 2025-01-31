@@ -4,7 +4,7 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
-      "ES2020",
+      "ESNext",
       "DOM",
       "DOM.Iterable"
     ],
@@ -33,7 +33,6 @@
   "include": [
     "src",
     "mock",
-    "test",
     "test"
   ]
 }

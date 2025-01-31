@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { routerConfig } from "../src/router/index"; // 假设 index.tsx 文件导出 Router
+import routerConfig from "../src/router/config"; // 假设 index.tsx 文件导出 Router
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { userEvent } from "@testing-library/user-event";
 import { useState } from "react";
@@ -10,7 +10,7 @@ describe("Router", () => {
       initialEntries: ["/"],
     });
     render(<RouterProvider router={homeMemoryRouter} />);
-    expect(screen.getByText(/Home/i)).not.toBeNull();
+    expect(screen.getByText(/Home/i)).toBeInTheDocument();
   });
 
   test("renders about page", async () => {
@@ -19,9 +19,7 @@ describe("Router", () => {
     });
 
     render(<RouterProvider router={aboutMemoryRouter} />);
-    await vi.waitFor(() => {
-      expect(screen.getByText(/About/i)).not.toBeNull();
-    });
+    expect(screen.getByText(/about/i)).toBeInTheDocument();
   });
 
   test("Change Demo", async () => {
