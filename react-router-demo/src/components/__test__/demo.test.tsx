@@ -1,25 +1,30 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { useRequest } from "ahooks";
+import Demo from "../Demo";
 
-vi.mock("ahooks", { spy: true });
-
-const Demo = () => {
-  const { runAsync } = useRequest(async () => "", { manual: true });
-  const inlineFn = async () => {
-    await runAsync();
-  };
-  return <button onClick={inlineFn}>Click</button>;
-};
+jest.mock("ahooks");
 
 test("Demo", async () => {
-  const fn = vi.fn();
-  vi.mocked(useRequest).mockReturnValue({
+  const fn = jest.fn();
+  fn.mockResolvedValue("Faild");
+  jest.mocked(useRequest).mockReturnValue({
     runAsync: fn,
   } as any);
-  fn.mockRejectedValue("Faild");
   render(<Demo />);
 
-  fireEvent.click(screen.getByRole("button", { name: "Click" }));
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name: "Click" }));
+  });
 
-  await expect(fn).rejects.toThrow("Faild");
+  expect(fn).toHaveBeenCalled();
+  expect(fn).toHaveBeenCalledWith(1, 2);
+  await waitFor(() => {
+    expect(screen.getByText("Faild")).toBeInTheDocument();
+  });
 });
