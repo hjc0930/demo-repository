@@ -1,7 +1,7 @@
 import { Config } from "jest";
 
 const config: Config = {
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: "jsdom",
   transform: {
     "^.+\\.(t|j)sx?$": [
       "@swc/jest",
