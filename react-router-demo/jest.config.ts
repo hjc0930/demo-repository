@@ -23,7 +23,6 @@ const config: Config = {
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   transformIgnorePatterns: ["^.+\\.module\\.(css|sass|scss)$"],
-  collectCoverage: true,
   coverageDirectory: "coverage",
   coverageReporters: ["json", "lcov", "text", "clover", "html"],
   testMatch: [
