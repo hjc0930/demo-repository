@@ -1,8 +1,24 @@
+import { getUser } from "@/services/user";
+import useGlobalStore from "@/stores/useGlobalStore";
+import { useRequest } from "ahooks";
+import { Spin } from "antd";
 import { Link, Outlet } from "react-router";
 
 const Layout = () => {
+  const setUserInfo = useGlobalStore((state) => state.setUserInfo);
+  const authorizationRoutersFactory = useGlobalStore(
+    (state) => state.authorizationRoutersFactory
+  );
+
+  const { loading } = useRequest(async () => {
+    const response: any = await getUser();
+    setUserInfo(response?.data);
+    authorizationRoutersFactory();
+
+    return response?.data;
+  });
   return (
-    <div>
+    <Spin spinning={loading}>
       <div>Layout</div>
       <ul>
         <li>
@@ -13,7 +29,7 @@ const Layout = () => {
         </li>
       </ul>
       <Outlet />
-    </div>
+    </Spin>
   );
 };
 

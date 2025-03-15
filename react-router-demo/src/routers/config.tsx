@@ -2,8 +2,9 @@ import Home from "@/views/Home";
 import About from "@/views/About";
 import { ProjectRouteObject } from "@/entities/common";
 import Layout from "@/layout";
-import AppInitialization from "@/components/AppInitialization";
 import Login from "@/views/Login";
+import NotFound from "@/views/NotFound";
+import { Navigate } from "react-router";
 
 /**
  * 权限管理:
@@ -17,16 +18,16 @@ import Login from "@/views/Login";
  */
 const routeObject: ProjectRouteObject[] = [
   {
+    index: true,
+    element: <Navigate to="transaction" />,
+  },
+  {
     path: "login",
     element: <Login />,
   },
   {
     path: "transaction",
-    element: (
-      <AppInitialization>
-        <Layout />
-      </AppInitialization>
-    ),
+    element: <Layout />,
     children: [
       {
         index: true,
@@ -36,18 +37,18 @@ const routeObject: ProjectRouteObject[] = [
         path: "open-item-queue",
         element: <About />,
         meta: {
-          permissions: ["admin1"],
+          permissions: ["admin"],
         },
       },
       {
         path: "*",
-        element: <div>404</div>,
+        element: <NotFound />,
       },
     ],
   },
   {
     path: "*",
-    element: <div>404</div>,
+    element: <NotFound />,
   },
 ];
 

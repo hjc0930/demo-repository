@@ -1,15 +1,13 @@
 import { create } from "zustand";
 import { ProjectRouteObject } from "../entities/common";
-import { Result } from "ahooks/lib/useRequest/src/types";
+import routeBoject from "@/routers/config";
+import { cloneDeep } from "lodash-es";
 
 type UseGlobalStoreType = {
   authorizationRouters: ProjectRouteObject[];
-  appInitializationService: null | Result<any, []>;
   userInfo: null | {
     id: number;
     name: string;
-    email: string;
-    role: string;
     permission: string[];
   };
   setUserInfo: (userInfo: {
@@ -19,9 +17,7 @@ type UseGlobalStoreType = {
     role: string;
     permission: string[];
   }) => void;
-  authorizationRoutersFactory: (
-    authorizationRouters: ProjectRouteObject[]
-  ) => ProjectRouteObject[];
+  authorizationRoutersFactory: () => ProjectRouteObject[];
 };
 
 const authorizationRouterInit = (
@@ -54,15 +50,14 @@ const authorizationRouterInit = (
 
 const useGlobalStore = create<UseGlobalStoreType>((set, get) => ({
   userInfo: null,
-  authorizationRouters: [],
-  appInitializationService: null,
+  authorizationRouters: routeBoject,
 
   setUserInfo: (userInfo) => set({ userInfo }),
-  authorizationRoutersFactory: (initialRouter: ProjectRouteObject[]) => {
+  authorizationRoutersFactory: () => {
     const userPermission = get().userInfo?.permission ?? [];
     const authorizationRouters: ProjectRouteObject[] = authorizationRouterInit(
       userPermission,
-      initialRouter
+      cloneDeep(routeBoject)
     );
     set({ authorizationRouters });
     return authorizationRouters;

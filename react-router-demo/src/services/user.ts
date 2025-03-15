@@ -1,3 +1,15 @@
 export const getUser = () => {
-  return fetch("http://localhost:8080/user/list").then((res) => res.json());
+  return new Promise((res) => {
+    setTimeout(() => {
+      res({
+        data: {
+          user: {
+            id: 1,
+            name: "jiacheng",
+          },
+          permission: ["admin"],
+        },
+      });
+    }, 1500);
+  });
 };
