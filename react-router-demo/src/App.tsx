@@ -1,12 +1,14 @@
-// import BaseResult from "./components/BaseResult";
-import Router from "./routers";
-// import useAppInitialzation from "./stores/useAppInitialzation";
-
 const App = () => {
-  // const loading = useAppInitialzation((state) => state.loading);
-
-  return <Router />;
-  // return loading ? <BaseResult /> : <Router />;
+  return (
+    <div
+      style={{
+        backgroundColor: "red",
+        width: "fit-content",
+      }}
+    >
+      1123123
+    </div>
+  );
 };
 
 export default App;
