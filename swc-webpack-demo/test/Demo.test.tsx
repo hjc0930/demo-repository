@@ -1,15 +1,10 @@
 import { render } from "@testing-library/react";
-
-const App = () => {
-  return <div>123213</div>;
-};
+import App from "@/App";
 
 describe("Demo", () => {
-  test("Demo", () => {
-    expect(1 + 2).toBe(3);
-  });
-
   test("App", () => {
-    render(<App />);
+    const { container } = render(<App />);
+    expect(container).toMatchSnapshot();
+    expect(container.querySelector("div")?.textContent).toBe("1");
   });
 });
