@@ -1,5 +1,3 @@
-const path = require("path");
-
 module.exports = {
   // 根目录
   roots: ["<rootDir>/src"],

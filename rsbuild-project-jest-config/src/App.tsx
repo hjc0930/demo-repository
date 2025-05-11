@@ -1,28 +1,20 @@
-import { Button } from "./components/Button";
 import "./App.css";
-import { Dropdown } from "antd";
+import { Button } from "antd";
+import useEventEmitter from "./hook/useEventEmitter";
+import Home from "./views/Home";
+import { RouterEventEmitterProvider } from "./store/routerEventEmitterContext";
 
 const App = () => {
+  const event = useEventEmitter();
+  const handleClick = () => {
+    event.emit("API:AUTH", "buttonClick");
+  };
+
   return (
-    <>
-      <Dropdown
-        menu={{
-          items: [
-            {
-              label: "Menu Click",
-              key: 1,
-            },
-          ],
-        }}
-      >
-        <button>Dropdown Trigger</button>
-      </Dropdown>
-      <div className="content">
-        <h1>Rsbuild with React</h1>
-        <p>Start building amazing things with Rsbuild.</p>
-        <Button>123123</Button>
-      </div>
-    </>
+    <RouterEventEmitterProvider value={event}>
+      <Button onClick={handleClick}>Click</Button>
+      <Home />
+    </RouterEventEmitterProvider>
   );
 };
 
