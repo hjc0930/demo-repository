@@ -9,6 +9,7 @@ import process from "node:process";
 import path from "node:path";
 import gulpSass from "gulp-sass";
 import * as sass from "sass";
+import chalk from "chalk";
 
 const buildSass = gulpSass(sass);
 
@@ -115,6 +116,7 @@ const compile = (format = "esm") => {
 };
 
 gulp.task("clean", (done) => {
+  console.log(chalk.yellow("[component-tools]"), "Start to clean...");
   rimraf.sync(libDir);
   rimraf.sync(esDir);
   rimraf.sync(distDir);
@@ -122,14 +124,17 @@ gulp.task("clean", (done) => {
 });
 
 gulp.task("dist", (done) => {
+  console.log(chalk.yellow("[component-tools]"), "Parallel compile to dist...");
   dist(done);
 });
 
 gulp.task("compile-with-esm", () => {
+  console.log(chalk.yellow("[component-tools]"), "Parallel compile to es...");
   return compile("esm");
 });
 
 gulp.task("compile-with-cjs", () => {
+  console.log(chalk.yellow("[component-tools]"), "Parallel compile to js...");
   return compile("cjs");
 });
 
