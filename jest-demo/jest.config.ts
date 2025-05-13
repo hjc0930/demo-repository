@@ -2,35 +2,32 @@
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
  */
+import type { Config } from "jest";
 
-/** @type {import('jest').Config} */
-const config = {
+const config: Config = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   coverageReporters: ["json", "text", "lcov", "clover"],
-  setupFilesAfterEnv: ["<rootDir>/setup.js"],
+  setupFilesAfterEnv: ["<rootDir>/setup.ts"],
   testEnvironment: "jsdom",
+  testPathIgnorePatterns: ["/node_modules/"],
   testMatch: [
     "**/__tests__/**/*.[jt]s?(x)",
     "**/test/**/*.[jt]s?(x)",
     "**/?(*.)+(spec|test).[tj]s?(x)",
   ],
-
-  testPathIgnorePatterns: ["/node_modules/"],
+  testTimeout: 60000,
+  transformIgnorePatterns: ["/node_modules/(?!)"],
   transform: {
     "^.+\\.[tj]sx?$": [
-      "babel-jest",
+      "jest-esbuild",
       {
-        presets: [
-          "@babel/preset-env",
-          ["@babel/preset-react", { runtime: "automatic" }],
-          "@babel/preset-typescript",
-        ],
+        jsx: "automatic",
+        target: "es2020",
       },
     ],
   },
-  transformIgnorePatterns: ["/node_modules/", "\\.pnp\\.[^\\/]+$"],
 };
 
-module.exports = config;
+export default config;
