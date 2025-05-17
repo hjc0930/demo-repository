@@ -1,0 +1,44 @@
+{
+  "name": "@hjc0930/component-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "bin": {
+    "component-tools": "./bin/component-tools.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "chalk": "^5.4.1",
+    "esbuild": "^0.25.4",
+    "gulp": "^5.0.0",
+    "gulp-cli": "^3.0.0",
+    "gulp-esbuild": "^0.14.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "merge2": "^1.4.1",
+    "minimist": "^1.2.8",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.40.2",
+    "sass": "^1.89.0",
+    "vite": "^6.3.5"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/gulp": "^4.0.17",
+    "@types/gulp-sass": "^5.0.4",
+    "@types/merge2": "^1.4.4",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^22.15.18",
+    "@types/rimraf": "^3.0.2",
+    "fs-extra": "^11.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

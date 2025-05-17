@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "baseUrl": "./",
+    "jsx": "preserve",
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "component-tools": [
+        "src/index.ts"
+      ]
+    }
+  }
+}
