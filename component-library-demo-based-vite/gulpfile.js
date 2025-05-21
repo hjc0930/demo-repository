@@ -12,7 +12,6 @@ import * as sass from "sass";
 import chalk from "chalk";
 
 const buildSass = gulpSass(sass);
-
 const tsDefaultReporter = ts.reporter.defaultReporter();
 const cwd = process.cwd();
 const libDir = path.resolve(cwd, "lib");
