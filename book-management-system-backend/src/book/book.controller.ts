@@ -19,7 +19,7 @@ import { storage } from './my-file-storage';
 
 @Controller('book')
 export class BookController {
-  constructor(private readonly bookService: BookService) {}
+  constructor(private readonly bookService: BookService) { }
 
   @Post('upload')
   @UseInterceptors(
