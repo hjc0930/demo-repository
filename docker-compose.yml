@@ -1,15 +1,15 @@
-version: "3.9"
-name: data-compose
+version: "3.8"
+name: data_workspace
 
 services:
   mysql:
-    image: mysql:8.0
-    container_name: mysql
+    image: mysql:8.4.6
+    container_name: mysql_container
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=123456
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
     healthcheck:
@@ -21,10 +21,10 @@ services:
   redis:
     image: redis:alpine
     command: redis-server
-    container_name: redis
+    container_name: redis_container
     restart: always
     volumes:
-      - redis-data:/data
+      - redis_data:/data
     ports:
       - "6379:6379"
     healthcheck:
@@ -33,5 +33,7 @@ services:
       timeout: 5s
       retries: 5
 volumes:
-  mysql-data:
-  redis-data:
+  mysql_data:
+    external: true
+  redis_data:
+    external: true
