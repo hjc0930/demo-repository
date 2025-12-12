@@ -37,6 +37,7 @@ public class PracticeMain {
                 new Person("Charlie", 32),
                 new Person("David", 15),
                 new Person("Eve", 28)
+
         );
         System.out.println("--Question 2--");
 
@@ -123,7 +124,8 @@ public class PracticeMain {
                 .mapToInt(Integer::intValue)
                 .average()
                 .orElse(0);
-        long count = numbers.stream()
+        long count = numbers
+                .stream()
                 .filter(i -> i > average)
                 .count();
 
@@ -161,8 +163,7 @@ public class PracticeMain {
                 new Employee("Eve", "HR", new BigDecimal("70000"))
         );
         System.out.println("--Question 8--");
-        Map<String, Double> avgSalaryByDept = employees
-                .stream()
+        Map<String, Double> avgSalaryByDept = employees.stream()
                 .collect(Collectors.groupingBy(
                         Employee::getName,
                         Collectors.averagingDouble(e -> e.getSalary().doubleValue())
