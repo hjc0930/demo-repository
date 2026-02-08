@@ -1,0 +1,46 @@
+/node_modules
+coverage
+
+# Ignore dist/ or build/ directory
+dist/
+build/
+es/
+lib/
+
+# Ignore any logs or temp files
+
+*.log
+
+*.tmp
+
+# Ignore local configuration files
+.env
+.env.local
+
+# Ignore editor-specific files and directories
+.DS_Store
+.vscode/
+
+*.suo
+
+*.ntvs*
+
+*.njsproj
+
+*.sln
+
+*.sw?
+
+# Ignore other potentially sensitive files
+
+*.key
+
+*.cert
+
+*.pfx
+
+*.pem
+
+# Add any other files or directories you want to ignore below
+# For example, if you want to ignore all .json files, add the following line:
+# *.json

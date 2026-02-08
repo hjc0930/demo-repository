@@ -1,0 +1,67 @@
+{
+  "name": "@hjc0930/fetch-request",
+  "version": "0.2.0",
+  "description": "Fetch request tool",
+  "license": "MIT",
+  "sideEffects": false,
+  "keywords": [
+    "fetch",
+    "ajax",
+    "request"
+  ],
+  "authors": {
+    "name": "hjc",
+    "email": "hjc_0827@outlook.com"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "gulp && webpack-cli",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
+  },
+  "repository": "https://github.com/hjc0930/request",
+  "homepage": "https://github.com/hjc0930/request",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
+  "unpkg": "dist/ahooks.js",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "package.json",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.26.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.1",
+    "@types/qs": "^6.9.17",
+    "@vitest/coverage-v8": "^2.1.4",
+    "@vitest/ui": "^2.1.4",
+    "babel-plugin-import": "^1.12.0",
+    "cross-env": "^7.0.3",
+    "del": "^8.0.0",
+    "gulp": "^5.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "jsdom": "^25.0.1",
+    "msw": "^2.6.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
+  },
+  "dependencies": {
+    "qs": "^6.13.0"
+  }
+}
