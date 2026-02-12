@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from 'vitest'
 import { renderHook, waitFor, act } from '@testing-library/react'
-import { server } from '../../mocks/server'
+import { server } from '../../../mocks/server'
 import { useFetch } from '../useFetch'
 import { getUserList } from '../../services/userService'
 import { http, HttpResponse } from 'msw'

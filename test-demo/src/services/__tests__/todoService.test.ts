@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, afterAll } from 'vitest'
-import { server } from '../../mocks/server'
+import { server } from '../../../mocks/server'
 import {
   getTodoList,
   getTodo,

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from 'vitest'
-import { server } from '../../mocks/server'
+import { server } from '../../../mocks/server'
 import { login, register, getUserInfo, getUserList } from '../userService'
 import { http, HttpResponse } from 'msw'
 import apiClient from '../api'

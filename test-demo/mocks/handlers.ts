@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import type { User, Todo } from '../types'
+import type { User, Todo } from '../src/types'
 
 const mockUsers: User[] = [
   { id: 1, name: '张三', email: 'zhangsan@example.com', role: 'admin', createdAt: '2024-01-01' },

@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { UserForm } from "../UserForm";
 
 describe("UserForm 组件", () => {
-  it("应该正确渲染表单字段", () => {
+  it("Should render all form fields correctly", () => {
     render(<UserForm onSubmit={vi.fn()} />);
 
     expect(screen.getByLabelText(/用户名/)).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe("UserForm 组件", () => {
     });
   });
 
-  it("应该验证邮箱格式", async () => {
+  it("Should validate email format", async () => {
     const user = userEvent.setup();
     render(<UserForm onSubmit={vi.fn()} />);
 
@@ -42,7 +42,7 @@ describe("UserForm 组件", () => {
     });
   });
 
-  it("应该验证用户名长度和格式", async () => {
+  it("Should validate username length and format", async () => {
     const user = userEvent.setup();
     render(<UserForm onSubmit={vi.fn()} />);
 
