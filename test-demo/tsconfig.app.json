@@ -38,6 +38,6 @@
   },
   "include": [
     "src",
-    "mocks"
+    "mocks",
   ]
 }

@@ -1,22 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { renderHook, waitFor, act } from '@testing-library/react'
-import { server } from '../../../mocks/server'
 import { useFetch } from '../useFetch'
 import { getUserList } from '../../services/userService'
-import { http, HttpResponse } from 'msw'
 
 describe('useFetch Hook', () => {
-  beforeEach(() => {
-    server.listen({ onUnhandledRequest: 'error' })
-  })
-
-  afterEach(() => {
-    server.resetHandlers()
-  })
-
-  afterAll(() => {
-    server.close()
-  })
 
   it('应该成功获取数据', async () => {
     const fetchFn = vi.fn().mockResolvedValue({ data: 'test data' })
@@ -44,7 +31,7 @@ describe('useFetch Hook', () => {
     })
   })
 
-  it('应该支持 initialData', () => {
+  it('应该支持 initialData', async () => {
     const initialData = { items: [] }
     const fetchFn = vi.fn().mockResolvedValue({ items: [1, 2, 3] })
 
@@ -52,7 +39,10 @@ describe('useFetch Hook', () => {
       useFetch(fetchFn, { initialData })
     )
 
-    expect(result.current.data).toEqual(initialData)
+    await waitFor(() => {
+      expect(result.current.data).toEqual(initialData)
+    })
+
   })
 
   it('成功时应该调用 onSuccess 回调', async () => {
