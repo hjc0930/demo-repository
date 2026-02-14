@@ -10,14 +10,14 @@ describe("UserForm 组件", () => {
     expect(screen.getByLabelText(/用户名/)).toBeInTheDocument();
     expect(screen.getByLabelText(/邮箱/)).toBeInTheDocument();
     expect(screen.getByLabelText(/密码/)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "提交" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "提 交" })).toBeInTheDocument();
   });
 
   it("应该验证必填字段", async () => {
     const user = userEvent.setup();
     render(<UserForm onSubmit={vi.fn()} />);
 
-    const submitButton = screen.getByRole("button", { name: "提交" });
+    const submitButton = screen.getByRole("button", { name: "提 交" });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -34,7 +34,7 @@ describe("UserForm 组件", () => {
     const emailInput = screen.getByLabelText(/邮箱/);
     await user.type(emailInput, "invalid-email");
 
-    const submitButton = screen.getByRole("button", { name: "提交" });
+    const submitButton = screen.getByRole("button", { name: "提 交" });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -75,7 +75,7 @@ describe("UserForm 组件", () => {
     const passwordInput = screen.getByLabelText(/密码/);
     await user.type(passwordInput, "12345");
 
-    const submitButton = screen.getByRole("button", { name: "提交" });
+    const submitButton = screen.getByRole("button", { name: "提 交" });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -92,7 +92,7 @@ describe("UserForm 组件", () => {
     await user.type(screen.getByLabelText(/邮箱/), "test@example.com");
     await user.type(screen.getByLabelText(/密码/), "password123");
 
-    const submitButton = screen.getByRole("button", { name: "提交" });
+    const submitButton = screen.getByRole("button", { name: "提 交" });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -139,7 +139,7 @@ describe("UserForm 组件", () => {
     await user.type(screen.getByLabelText(/邮箱/), "test@example.com");
     await user.type(screen.getByLabelText(/密码/), "password123");
 
-    const submitButton = screen.getByRole("button", { name: "提交" });
+    const submitButton = screen.getByRole("button", { name: "提 交" });
     await user.click(submitButton);
 
     await waitFor(() => {
