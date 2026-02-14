@@ -1,5 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, afterAll } from 'vitest'
-import { server } from '../../../mocks/server'
+import { describe, it, expect } from 'vitest'
 import {
   getTodoList,
   getTodo,
@@ -10,17 +9,6 @@ import {
 } from '../todoService'
 
 describe('待办事项服务 (todoService)', () => {
-  beforeEach(() => {
-    server.listen({ onUnhandledRequest: 'error' })
-  })
-
-  afterEach(() => {
-    server.resetHandlers()
-  })
-
-  afterAll(() => {
-    server.close()
-  })
 
   describe('getTodoList', () => {
     it('应该获取待办事项列表', async () => {
@@ -49,7 +37,7 @@ describe('待办事项服务 (todoService)', () => {
     })
 
     it('不存在的 ID 应该返回 404', async () => {
-      await expect(getTodo(999)).rejects.toThrow()
+      await expect(getTodo(999)).rejects.toThrow("404")
     })
   })
 
@@ -96,7 +84,9 @@ describe('待办事项服务 (todoService)', () => {
 
   describe('toggleTodo', () => {
     it('应该切换待办事项状态', async () => {
-      const response = await toggleTodo(1, false)
+      const currentTodo = await getTodo(1);
+      expect(currentTodo.data.completed).toBe(false);
+      const response = await toggleTodo(currentTodo.data.id, true)
 
       expect(response.code).toBe(200)
       expect(response.data.completed).toBe(true)

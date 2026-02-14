@@ -1,17 +1,27 @@
 import { http, HttpResponse } from 'msw'
 import type { User, Todo } from '../src/types'
 
-const mockUsers: User[] = [
+
+const initialUsers: User[] = [
   { id: 1, name: '张三', email: 'zhangsan@example.com', role: 'admin', createdAt: '2024-01-01' },
   { id: 2, name: '李四', email: 'lisi@example.com', role: 'user', createdAt: '2024-01-02' },
   { id: 3, name: '王五', email: 'wangwu@example.com', role: 'user', createdAt: '2024-01-03' },
 ]
 
-let mockTodos: Todo[] = [
+const initialTodos: Todo[] = [
   { id: 1, title: '学习 React', completed: false, userId: 1 },
   { id: 2, title: '学习 TypeScript', completed: true, userId: 1 },
   { id: 3, title: '学习 Vitest', completed: false, userId: 2 },
 ]
+
+let mockUsers: User[] = [...initialUsers]
+
+let mockTodos: Todo[] = [...initialTodos]
+
+export const resetMockData = () => {
+  mockUsers = [...initialUsers]
+  mockTodos = [...initialTodos]
+}
 
 export const handlers = [
   // 用户登录

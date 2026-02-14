@@ -2,6 +2,7 @@ import '@testing-library/jest-dom'
 import { cleanup } from '@testing-library/react'
 import { afterEach, beforeAll, afterAll, vi } from 'vitest'
 import { server } from './mocks/server'
+import { resetMockData } from './mocks/handlers'
 
 // ============================================================
 // MSW (Mock Service Worker) 设置
@@ -18,8 +19,13 @@ beforeAll(() => {
 afterEach(() => {
   // Testing Library 清理
   cleanup()
+  // vi mock 清理
+  vi.clearAllMocks();
   // 每个测试后重置 handlers，避免测试间相互影响
   server.resetHandlers();
+  // 重置mock数据
+  resetMockData()
+
 })
 
 // 所有测试结束后关闭 MSW 服务器

@@ -70,7 +70,7 @@ describe('格式化工具函数', () => {
     })
 
     it('应该支持自定义货币', () => {
-      expect(formatCurrency(100, 'USD')).toBe('$100.00')
+      expect(formatCurrency(100, 'USD', "en-us")).toBe('$100.00')
       expect(formatCurrency(100, 'EUR', 'de-DE')).toBe('100,00 €')
     })
   })

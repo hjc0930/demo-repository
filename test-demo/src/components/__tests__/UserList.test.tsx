@@ -1,12 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-  afterAll,
-} from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { server } from "../../../mocks/server";
@@ -15,19 +7,6 @@ import { http, HttpResponse } from "msw";
 
 describe("UserList 组件", () => {
   const onEdit = vi.fn();
-
-  beforeEach(() => {
-    server.listen({ onUnhandledRequest: "error" });
-  });
-
-  afterEach(() => {
-    server.resetHandlers();
-    vi.clearAllMocks();
-  });
-
-  afterAll(() => {
-    server.close();
-  });
 
   it("应该正确渲染用户列表", async () => {
     render(<UserList onEdit={onEdit} />);
@@ -65,8 +44,8 @@ describe("UserList 组件", () => {
     render(<UserList onEdit={onEdit} />);
 
     await waitFor(() => {
-      const userTag = screen.getByText("普通用户");
-      expect(userTag).toBeInTheDocument();
+      const userTags = screen.getAllByText("普通用户");
+      expect(userTags[0]).toBeInTheDocument();
     });
   });
 
