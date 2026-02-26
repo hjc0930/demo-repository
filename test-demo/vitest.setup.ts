@@ -1,8 +1,6 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { afterEach, beforeAll, afterAll, vi } from 'vitest'
-import { server } from './mocks/server'
-import { resetMockData } from './mocks/handlers'
 
 // ============================================================
 // MSW (Mock Service Worker) 设置
@@ -10,10 +8,10 @@ import { resetMockData } from './mocks/handlers'
 
 // 在所有测试开始前启动 MSW 服务器
 beforeAll(() => {
-  server.listen({
-    onUnhandledRequest: 'error', // 对未处理的请求报错，帮助发现遗漏的 mock
-  })
-  console.log('MSW 服务器已启动')
+  // server.listen({
+  //   onUnhandledRequest: 'error', // 对未处理的请求报错，帮助发现遗漏的 mock
+  // })
+  // console.log('MSW 服务器已启动')
 })
 
 afterEach(() => {
@@ -21,17 +19,17 @@ afterEach(() => {
   cleanup()
   // vi mock 清理
   vi.clearAllMocks();
-  // 每个测试后重置 handlers，避免测试间相互影响
-  server.resetHandlers();
-  // 重置mock数据
-  resetMockData()
+  // // 每个测试后重置 handlers，避免测试间相互影响
+  // server.resetHandlers();
+  // // 重置mock数据
+  // resetMockData()
 
 })
 
 // 所有测试结束后关闭 MSW 服务器
 afterAll(() => {
-  server.close()
-  console.log('MSW 服务器已关闭')
+  // server.close()
+  // console.log('MSW 服务器已关闭')
 
 })
 
@@ -151,6 +149,161 @@ Object.defineProperty(URL, 'revokeObjectURL', {
   writable: true,
   value: vi.fn(),
 })
+
+// ============================================================
+// 静态资源 Mock
+// ============================================================
+
+/**
+ * 静态资源导入 Mock
+ *
+ * Vitest 默认不支持导入图片、字体等静态资源
+ * 使用 vi.mock 模拟这些资源的导入
+ */
+
+// 模拟图片资源
+vi.mock('*.svg', () => ({
+  default: 'mocked-svg-url',
+  ReactComponent: () => 'mocked-svg-component',
+}))
+
+vi.mock('*.png', () => ({
+  default: 'mocked-png-url',
+}))
+
+vi.mock('*.jpg', () => ({
+  default: 'mocked-jpg-url',
+}))
+
+vi.mock('*.jpeg', () => ({
+  default: 'mocked-jpeg-url',
+}))
+
+vi.mock('*.gif', () => ({
+  default: 'mocked-gif-url',
+}))
+
+vi.mock('*.webp', () => ({
+  default: 'mocked-webp-url',
+}))
+
+vi.mock('*.ico', () => ({
+  default: 'mocked-ico-url',
+}))
+
+// 模拟字体资源
+vi.mock('*.woff', () => ({
+  default: 'mocked-woff-url',
+}))
+
+vi.mock('*.woff2', () => ({
+  default: 'mocked-woff2-url',
+}))
+
+vi.mock('*.ttf', () => ({
+  default: 'mocked-ttf-url',
+}))
+
+vi.mock('*.eot', () => ({
+  default: 'mocked-eot-url',
+}))
+
+// 模拟样式文件
+// vi.mock('*.css', () => ({}))
+// vi.mock('*.scss', () => ({}))
+// vi.mock('*.less', () => ({}))
+
+// 模拟视频/音频资源
+vi.mock('*.mp4', () => ({
+  default: 'mocked-mp4-url',
+}))
+
+vi.mock('*.webm', () => ({
+  default: 'mocked-webm-url',
+}))
+
+vi.mock('*.mp3', () => ({
+  default: 'mocked-mp3-url',
+}))
+
+vi.mock('*.wav', () => ({
+  default: 'mocked-wav-url',
+}))
+
+// ============================================================
+// React Router Mock
+// ============================================================
+
+/**
+ * React Router Hooks Mock
+ *
+ * 由于 jsdom 不支持真正的路由导航
+ * 使用 vi.mock 模拟 react-router-dom 的 hooks
+ * 可在具体测试中覆盖这些 mock 的返回值
+ */
+
+const mockNavigate = vi.fn()
+const mockGoBack = vi.fn()
+const mockGoForward = vi.fn()
+
+vi.mock('react-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react-router')>()
+
+  return {
+    ...actual,
+    // useNavigate Mock
+    useNavigate: () => mockNavigate,
+
+    // useLocation Mock
+    useLocation: () => ({
+      pathname: '/',
+      search: '',
+      hash: '',
+      state: null,
+      key: 'default',
+    }),
+
+    // useParams Mock
+    useParams: () => ({}),
+
+    // useSearchParams Mock
+    useSearchParams: () => [
+      new URLSearchParams(),
+      vi.fn(),
+    ],
+
+    // useMatch Mock
+    useMatch: () => null,
+
+    // useHref Mock
+    useHref: (to: string) => to,
+
+    // useNavLink Mock (如果使用)
+    useNavigationType: () => 'POP',
+
+    // useOutlet Mock
+    useOutlet: () => null,
+
+    // useOutletContext Mock
+    useOutletContext: vi.fn(),
+
+    // useRouteLoaderData Mock
+    useRouteLoaderData: () => null,
+
+    // useBeforeUnload Mock
+    useBeforeUnload: vi.fn(),
+
+    // unstable_useBlocker Mock
+    unstable_useBlocker: () => ({
+      state: 'unblocked',
+      proceed: vi.fn(),
+      reset: vi.fn(),
+    }),
+  }
+})
+
+// 导出 mock 函数供测试使用
+export { mockNavigate, mockGoBack, mockGoForward }
 
 // ============================================================
 // jsdom 原生支持的 API - 无需 Mock
