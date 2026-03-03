@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.blog.mapper.LikeRecordMapper">
+
+    <!-- 查询用户对目标的点赞状态 -->
+    <select id="selectByUserAndTarget" resultType="com.hjc.blog.entity.LikeRecord">
+        SELECT *
+        FROM like_record
+        WHERE user_id = #{userId}
+            AND target_id = #{targetId}
+            AND target_type = #{targetType}
+        LIMIT 1
+    </select>
+
+    <!-- 统计目标的点赞数 -->
+    <select id="countByTarget" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM like_record
+        WHERE target_id = #{targetId}
+            AND target_type = #{targetType}
+            AND status = 1
+    </select>
+
+</mapper>

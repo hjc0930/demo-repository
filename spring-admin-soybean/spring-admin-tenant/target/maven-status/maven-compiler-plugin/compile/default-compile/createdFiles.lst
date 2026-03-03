@@ -1,0 +1,11 @@
+com\soybean\admin\tenant\service\TenantPackageService.class
+com\soybean\admin\tenant\service\TenantQuotaService.class
+com\soybean\admin\tenant\service\TenantFeatureService.class
+com\soybean\admin\tenant\service\impl\TenantFeatureServiceImpl.class
+com\soybean\admin\tenant\controller\TenantManagementController.class
+com\soybean\admin\tenant\service\impl\TenantPackageServiceImpl.class
+com\soybean\admin\tenant\service\impl\TenantQuotaServiceImpl.class
+com\soybean\admin\tenant\config\MybatisPlusTenantConfiguration.class
+com\soybean\admin\tenant\config\TenantConfiguration.class
+com\soybean\admin\tenant\config\MybatisPlusTenantConfiguration$IgnoreTenantInterceptor.class
+com\soybean\admin\tenant\interceptor\TenantInterceptor.class

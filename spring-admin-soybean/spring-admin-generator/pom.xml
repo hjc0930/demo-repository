@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.soybean.admin</groupId>
+        <artifactId>spring-admin-soybean</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>spring-admin-generator</artifactId>
+    <name>Spring Admin Generator</name>
+    <description>Code generator module</description>
+
+    <dependencies>
+        <!-- Common Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-common</artifactId>
+        </dependency>
+
+        <!-- Security Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-security</artifactId>
+        </dependency>
+
+        <!-- Tenant Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-tenant</artifactId>
+        </dependency>
+
+        <!-- Data Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-data</artifactId>
+        </dependency>
+
+        <!-- System Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-system</artifactId>
+        </dependency>
+
+        <!-- Spring Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- MyBatis-Plus Generator -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+        </dependency>
+
+        <!-- Velocity Template Engine -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,12 @@
+com\soybean\admin\security\config\SecurityConfiguration.class
+com\soybean\admin\security\handler\SecurityAuthenticationEntryPoint.class
+com\soybean\admin\security\details\LoginUser.class
+com\soybean\admin\security\captcha\CaptchaController.class
+com\soybean\admin\security\captcha\CaptchaService$CaptchaResult.class
+com\soybean\admin\security\filter\JwtAuthenticationFilter.class
+com\soybean\admin\security\security\IpBlacklistService.class
+com\soybean\admin\security\utils\JwtUtils.class
+com\soybean\admin\security\handler\SecurityAccessDeniedHandler.class
+com\soybean\admin\security\security\LoginAttemptService.class
+com\soybean\admin\security\utils\RedisCache.class
+com\soybean\admin\security\captcha\CaptchaService.class

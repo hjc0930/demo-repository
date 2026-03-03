@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.soybean.admin</groupId>
+        <artifactId>spring-admin-soybean</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>spring-admin-monitor</artifactId>
+    <name>Spring Admin Monitor</name>
+    <description>Monitor module for system monitoring and logging</description>
+
+    <dependencies>
+        <!-- Common Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-common</artifactId>
+        </dependency>
+
+        <!-- Security Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-security</artifactId>
+        </dependency>
+
+        <!-- Tenant Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-tenant</artifactId>
+        </dependency>
+
+        <!-- Data Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-data</artifactId>
+        </dependency>
+
+        <!-- System Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-system</artifactId>
+        </dependency>
+
+        <!-- Spring Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Redisson for distributed features -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- OSHI for system monitoring -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+        </dependency>
+    </dependencies>
+</project>

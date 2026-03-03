@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.soybean.admin</groupId>
+        <artifactId>spring-admin-soybean</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>spring-admin-mail</artifactId>
+    <name>Spring Admin Mail</name>
+    <description>Mail service module with account management, templates, and async sending</description>
+
+    <dependencies>
+        <!-- Common Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-common</artifactId>
+        </dependency>
+
+        <!-- Data Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-data</artifactId>
+        </dependency>
+
+        <!-- Tenant Module -->
+        <dependency>
+            <groupId>com.soybean.admin</groupId>
+            <artifactId>spring-admin-tenant</artifactId>
+        </dependency>
+
+        <!-- Spring Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!-- Freemarker for templates -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+
+        <!-- Validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+</project>

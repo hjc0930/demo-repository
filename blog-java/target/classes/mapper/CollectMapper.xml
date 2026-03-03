@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjc.blog.mapper.CollectMapper">
+
+    <!-- 查询用户是否收藏了某篇文章 -->
+    <select id="selectByUserAndArticle" resultType="com.hjc.blog.entity.Collect">
+        SELECT *
+        FROM collect
+        WHERE user_id = #{userId}
+            AND article_id = #{articleId}
+            AND is_deleted = 0
+        LIMIT 1
+    </select>
+
+    <!-- 统计文章的收藏数 -->
+    <select id="countByArticle" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM collect
+        WHERE article_id = #{articleId}
+            AND is_deleted = 0
+    </select>
+
+</mapper>
