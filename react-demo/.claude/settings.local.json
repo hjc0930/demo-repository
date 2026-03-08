@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm view typescript versions --json)",
+      "Bash(npm install typescript@6.0.0-dev.20260301 --save-dev)",
+      "Bash(npm install typescript@6.0.0-dev.20260301 --save-dev --legacy-peer-deps)",
+      "Bash(npx tsc --version)",
+      "Bash(npm run lint)",
+      "Bash(npm install @typescript-eslint/parser --save-dev --legacy-peer-deps)",
+      "Bash(npm install:*)",
+      "Bash(npm cache clean:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(timeout:*)",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm run build)",
+      "Bash(npx vite build:*)",
+      "Bash(pnpm test:run:*)"
+    ]
+  }
+}
