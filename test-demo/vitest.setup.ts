@@ -150,6 +150,37 @@ Object.defineProperty(URL, 'revokeObjectURL', {
   value: vi.fn(),
 })
 
+
+/**
+ * DOMParser Mock - solved SVG data URL parser issue
+ */
+class DOMParserMock {
+  parseFromString(str: string, type: string) {
+    const doc = document.implementation.createHTMLDocument("");
+
+    if (type.includes("svg") || str.includes("svg")) {
+      const div = doc.createElement("div");
+      div.innerHTML = "<svg></svg>"
+      return div;
+    }
+
+    doc.body.innerHTML = str;
+    return doc;
+  }
+}
+global.DOMParser = DOMParserMock as any;
+
+/**
+ * Fixed the data URL issue with the document.createElement handler
+ */
+const originalCreateElement = document.createElement.bind(document);
+document.createElement = function (tagName: string, options?: ElementCreationOptions) {
+  if (tagName && tagName.startsWith("data:")) {
+    return originalCreateElement("span", options);
+  }
+  return originalCreateElement(tagName, options);
+} as typeof document.createElement;
+
 // ============================================================
 // 静态资源 Mock
 // ============================================================
