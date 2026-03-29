@@ -8,7 +8,8 @@
       "Bash(go fmt:*)",
       "Bash(go vet:*)",
       "Bash(mkdir:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(go get:*)"
     ]
   }
 }

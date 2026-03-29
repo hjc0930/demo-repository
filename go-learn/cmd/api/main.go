@@ -2,12 +2,13 @@
 // ============================================================
 // Go Web 服务器
 // ------------------------------------------------------------
-// 使用 Go 标准库 net/http 构建简单的 REST API
-// 涵盖: 路由、中间件、JSON 处理、错误处理
+// 使用 Gin 框架构建 REST API
+// 涵盖: 路由、中间件、JSON 处理、错误处理、优雅关闭
 // ============================================================
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,6 +17,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/hjc0930/go-learn/internal/handler"
 	"github.com/hjc0930/go-learn/internal/service"
 	"github.com/hjc0930/go-learn/internal/storage"
@@ -32,6 +34,10 @@ func main() {
 	// 打印欢迎信息
 	printBanner()
 
+	// 设置 Gin 运行模式
+	// gin.DebugMode / gin.ReleaseMode / gin.TestMode
+	gin.SetMode(gin.DebugMode)
+
 	// 初始化依赖
 	// 使用依赖注入模式，从底层到顶层依次初始化
 	repo := storage.NewMemoryRepository()      // 存储层
@@ -39,32 +45,33 @@ func main() {
 	todoHandler := handler.NewTodoHandler(svc) // 处理器层
 	statsHandler := handler.NewStatsHandler(svc)
 
-	// 创建路由器
-	// http.ServeMux 是 Go 标准库提供的 HTTP 路由器
-	mux := http.NewServeMux()
+	// 创建 Gin 引擎
+	// gin.New() 创建一个不带默认中间件的引擎
+	// gin.Default() 创建一个带 Logger 和 Recovery 中间件的引擎
+	router := gin.New()
 
-	// 注册路由
-	// HandleFunc 将路径注册到处理函数
-	// Handle 将路径注册到实现了 http.Handler 接口的对象
-	mux.HandleFunc("/", homeHandler)
-	mux.Handle("/api/todos", todoHandler)      // 处理 /api/todos
-	mux.Handle("/api/todos/", todoHandler)     // 处理 /api/todos/{id}
-	mux.Handle("/api/stats", statsHandler)     // 处理 /api/stats
+	// 注册全局中间件
+	router.Use(handler.RecoveryMiddleware()) // 恢复中间件（自定义）
+	router.Use(handler.CORSMiddleware())     // CORS 中间件
+	router.Use(gin.Logger())                 // Gin 日志中间件
 
-	// 应用中间件
-	// 中间件按顺序执行：Recovery -> Logging -> Handler
-	var finalHandler http.Handler = mux
-	finalHandler = handler.LoggingMiddleware(finalHandler)
-	finalHandler = handler.RecoveryMiddleware(finalHandler)
+	// 注册首页路由
+	router.GET("/", homeHandler)
+
+	// 注册 API 路由组
+	api := router.Group("/api")
+	{
+		todoHandler.RegisterRoutes(api)
+		statsHandler.RegisterRoutes(api)
+	}
 
 	// 创建 HTTP 服务器
-	// http.Server 提供了更多配置选项
 	server := &http.Server{
-		Addr:         ":8080", // 监听地址
-		Handler:      finalHandler,
-		ReadTimeout:  10 * time.Second,  // 读取超时
-		WriteTimeout: 10 * time.Second,  // 写入超时
-		IdleTimeout:  60 * time.Second,  // 空闲超时
+		Addr:         ":8080",
+		Handler:      router,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  60 * time.Second,
 	}
 
 	// ============================================================
@@ -82,53 +89,46 @@ func main() {
 		fmt.Println("API 文档:")
 		fmt.Println("  GET    /api/todos          获取任务列表")
 		fmt.Println("  POST   /api/todos          创建任务")
-		fmt.Println("  GET    /api/todos/{id}     获取单个任务")
-		fmt.Println("  PUT    /api/todos/{id}     更新任务")
-		fmt.Println("  DELETE /api/todos/{id}     删除任务")
+		fmt.Println("  GET    /api/todos/:id      获取单个任务")
+		fmt.Println("  PUT    /api/todos/:id      更新任务")
+		fmt.Println("  DELETE /api/todos/:id      删除任务")
 		fmt.Println("  GET    /api/stats          获取统计信息")
 		fmt.Println()
 		fmt.Println("按 Ctrl+C 停止服务器")
 
 		// ListenAndServe 启动 HTTP 服务器
-		// 它会阻塞，直到服务器出错或关闭
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("服务器错误: %v", err)
 		}
 	}()
 
 	// 等待中断信号
-	// os.Signal 类型的 channel 用于接收系统信号
 	quit := make(chan os.Signal, 1)
-	// signal.Notify 注册要监听的信号
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
 	// 阻塞等待信号
 	<-quit
 	fmt.Println("\n正在关闭服务器...")
 
-	// 给正在处理的请求一些时间完成
-	// context.Background() 返回一个空的 context
-	// context.WithTimeout 创建一个带超时的 context
-	// server.Shutdown 优雅关闭，等待所有连接处理完成
-	// 超时后强制关闭
-	// ... 这里简化处理
+	// 优雅关闭
+	// 给正在处理的请求 5 秒时间完成
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := server.Shutdown(ctx); err != nil {
+		log.Printf("服务器关闭错误: %v", err)
+	}
 
 	fmt.Println("服务器已关闭")
 }
 
 // homeHandler 处理首页请求
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	// 只处理根路径
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintln(w, `<!DOCTYPE html>
+func homeHandler(c *gin.Context) {
+	c.Header("Content-Type", "text/html; charset=utf-8")
+	c.String(http.StatusOK, `<!DOCTYPE html>
 <html>
 <head>
-    <title>Go Todo API</title>
+    <title>Go Todo API (Gin)</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
         h1 { color: #333; }
@@ -143,8 +143,8 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
     </style>
 </head>
 <body>
-    <h1>Go Todo API</h1>
-    <p>欢迎使用 Go Todo API 服务！</p>
+    <h1>🚀 Go Todo API (Gin)</h1>
+    <p>欢迎使用基于 Gin 框架的 Todo API 服务！</p>
 
     <h2>API 端点</h2>
     <div class="endpoint">
@@ -154,13 +154,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
         <span class="method post">POST</span> <code>/api/todos</code> - 创建任务
     </div>
     <div class="endpoint">
-        <span class="method get">GET</span> <code>/api/todos/{id}</code> - 获取单个任务
+        <span class="method get">GET</span> <code>/api/todos/:id</code> - 获取单个任务
     </div>
     <div class="endpoint">
-        <span class="method put">PUT</span> <code>/api/todos/{id}</code> - 更新任务
+        <span class="method put">PUT</span> <code>/api/todos/:id</code> - 更新任务
     </div>
     <div class="endpoint">
-        <span class="method delete">DELETE</span> <code>/api/todos/{id}</code> - 删除任务
+        <span class="method delete">DELETE</span> <code>/api/todos/:id</code> - 删除任务
     </div>
     <div class="endpoint">
         <span class="method get">GET</span> <code>/api/stats</code> - 获取统计信息
@@ -185,6 +185,6 @@ func printBanner() {
  | |_| | (_) | | | | | |_) |
   \____|\___/|_|_| |_|_.__/
 
-  一个学习 Go 语言的示例项目
+  一个学习 Go 语言的示例项目 (Gin 版本)
 `)
 }
