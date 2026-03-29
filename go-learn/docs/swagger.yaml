@@ -1,0 +1,334 @@
+basePath: /api
+definitions:
+  handler.ErrorInfo:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  handler.Response:
+    properties:
+      data: {}
+      error:
+        $ref: '#/definitions/handler.ErrorInfo'
+      success:
+        type: boolean
+    type: object
+  models.Priority:
+    enum:
+    - low
+    - medium
+    - high
+    type: string
+    x-enum-varnames:
+    - PriorityLow
+    - PriorityMedium
+    - PriorityHigh
+  models.Todo:
+    properties:
+      completed:
+        description: |-
+          Completed 表示任务是否完成
+          bool 类型只有 true 和 false 两个值
+        type: boolean
+      created_at:
+        description: |-
+          CreatedAt 是任务创建时间
+          time.Time 是 Go 标准库中的时间类型
+        type: string
+      description:
+        description: |-
+          Description 是任务描述
+          omitempty 表示如果字段为空，JSON 序列化时省略该字段
+        type: string
+      id:
+        description: |-
+          ID 是任务的唯一标识符
+          使用 uint 类型（无符号整数），只存储非负数
+        type: integer
+      priority:
+        allOf:
+        - $ref: '#/definitions/models.Priority'
+        description: |-
+          Priority 是任务优先级
+          使用自定义类型 Priority，提高代码可读性
+      tags:
+        description: |-
+          Tags 是任务的标签列表
+          []string 是字符串切片（动态数组）
+        items:
+          type: string
+        type: array
+      title:
+        description: |-
+          Title 是任务标题
+          string 是 Go 的字符串类型，不可变
+        type: string
+      updated_at:
+        description: UpdatedAt 是任务最后更新时间
+        type: string
+    type: object
+  service.CreateTodoRequest:
+    properties:
+      description:
+        type: string
+      priority:
+        $ref: '#/definitions/models.Priority'
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    type: object
+  service.TodoStats:
+    properties:
+      byPriority:
+        additionalProperties:
+          type: integer
+        type: object
+      completed:
+        type: integer
+      highOverdue:
+        description: 高优先级过期任务数
+        type: integer
+      pending:
+        type: integer
+      total:
+        type: integer
+    type: object
+  service.UpdateTodoRequest:
+    properties:
+      completed:
+        type: boolean
+      description:
+        type: string
+      priority:
+        $ref: '#/definitions/models.Priority'
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        description: 使用指针区分"不更新"和"更新为零值"
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: 一个基于 Gin 框架的 Todo API 示例项目，用于学习 Go 语言 Web 开发。
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Go Todo API
+  version: "1.0"
+paths:
+  /stats:
+    get:
+      consumes:
+      - application/json
+      description: 获取任务的统计信息，包括总数、完成数、待办数等
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/service.TodoStats'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 获取统计信息
+      tags:
+      - stats
+  /todos:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有待办任务列表，支持按优先级和完成状态筛选
+      parameters:
+      - description: 按优先级筛选 (low/medium/high)
+        in: query
+        name: priority
+        type: string
+      - description: 按完成状态筛选
+        in: query
+        name: completed
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Todo'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 获取任务列表
+      tags:
+      - todos
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的待办任务
+      parameters:
+      - description: 创建任务请求
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/service.CreateTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Todo'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 创建任务
+      tags:
+      - todos
+  /todos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定的任务
+      parameters:
+      - description: 任务 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  additionalProperties:
+                    type: string
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 删除任务
+      tags:
+      - todos
+    get:
+      consumes:
+      - application/json
+      description: 根据 ID 获取任务详情
+      parameters:
+      - description: 任务 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Todo'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 获取单个任务
+      tags:
+      - todos
+    put:
+      consumes:
+      - application/json
+      description: 更新指定任务的信息
+      parameters:
+      - description: 任务 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新任务请求
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/service.UpdateTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Todo'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 更新任务
+      tags:
+      - todos
+schemes:
+- http
+swagger: "2.0"

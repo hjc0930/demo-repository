@@ -7,6 +7,22 @@
 // ============================================================
 package main
 
+// @title           Go Todo API
+// @version         1.0
+// @description     一个基于 Gin 框架的 Todo API 示例项目，用于学习 Go 语言 Web 开发。
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
+// @BasePath  /api
+// @schemes   http
+
 import (
 	"context"
 	"fmt"
@@ -18,6 +34,10 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "github.com/hjc0930/go-learn/docs" // swagger 生成的文档
 	"github.com/hjc0930/go-learn/internal/handler"
 	"github.com/hjc0930/go-learn/internal/service"
 	"github.com/hjc0930/go-learn/internal/storage"
@@ -65,6 +85,10 @@ func main() {
 		statsHandler.RegisterRoutes(api)
 	}
 
+	// 注册 Swagger 文档路由
+	// 访问 http://localhost:8080/swagger/index.html 查看 API 文档
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	// 创建 HTTP 服务器
 	server := &http.Server{
 		Addr:         ":8080",
@@ -86,7 +110,9 @@ func main() {
 	// 使用 goroutine 启动服务器
 	go func() {
 		fmt.Println("服务器启动在 http://localhost:8080")
-		fmt.Println("API 文档:")
+		fmt.Println("Swagger 文档: http://localhost:8080/swagger/index.html")
+		fmt.Println()
+		fmt.Println("API 端点:")
 		fmt.Println("  GET    /api/todos          获取任务列表")
 		fmt.Println("  POST   /api/todos          创建任务")
 		fmt.Println("  GET    /api/todos/:id      获取单个任务")

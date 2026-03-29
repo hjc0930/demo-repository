@@ -126,6 +126,16 @@ func handleError(c *gin.Context, err error) {
 
 // List 获取任务列表
 // GET /api/todos
+// @Summary      获取任务列表
+// @Description  获取所有待办任务列表，支持按优先级和完成状态筛选
+// @Tags         todos
+// @Accept       json
+// @Produce      json
+// @Param        priority   query     string  false  "按优先级筛选 (low/medium/high)"
+// @Param        completed query     bool    false  "按完成状态筛选"
+// @Success      200       {object}  Response{data=[]models.Todo}
+// @Failure      500       {object}  Response
+// @Router       /todos [get]
 func (h *TodoHandler) List(c *gin.Context) {
 	// 解析查询参数
 	var priority *models.Priority
@@ -155,6 +165,16 @@ func (h *TodoHandler) List(c *gin.Context) {
 
 // Create 创建任务
 // POST /api/todos
+// @Summary      创建任务
+// @Description  创建一个新的待办任务
+// @Tags         todos
+// @Accept       json
+// @Produce      json
+// @Param        request  body      service.CreateTodoRequest  true  "创建任务请求"
+// @Success      201      {object}  Response{data=models.Todo}
+// @Failure      400      {object}  Response
+// @Failure      500      {object}  Response
+// @Router       /todos [post]
 func (h *TodoHandler) Create(c *gin.Context) {
 	// 绑定请求体
 	var req service.CreateTodoRequest
@@ -184,6 +204,16 @@ func (h *TodoHandler) Create(c *gin.Context) {
 
 // Get 获取单个任务
 // GET /api/todos/:id
+// @Summary      获取单个任务
+// @Description  根据 ID 获取任务详情
+// @Tags         todos
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "任务 ID"
+// @Success      200  {object}  Response{data=models.Todo}
+// @Failure      400  {object}  Response
+// @Failure      404  {object}  Response
+// @Router       /todos/{id} [get]
 func (h *TodoHandler) Get(c *gin.Context) {
 	// 解析 ID
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
@@ -212,6 +242,17 @@ func (h *TodoHandler) Get(c *gin.Context) {
 
 // Update 更新任务
 // PUT /api/todos/:id
+// @Summary      更新任务
+// @Description  更新指定任务的信息
+// @Tags         todos
+// @Accept       json
+// @Produce      json
+// @Param        id       path      int                       true  "任务 ID"
+// @Param        request  body      service.UpdateTodoRequest  true  "更新任务请求"
+// @Success      200      {object}  Response{data=models.Todo}
+// @Failure      400      {object}  Response
+// @Failure      404      {object}  Response
+// @Router       /todos/{id} [put]
 func (h *TodoHandler) Update(c *gin.Context) {
 	// 解析 ID
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
@@ -253,6 +294,16 @@ func (h *TodoHandler) Update(c *gin.Context) {
 
 // Delete 删除任务
 // DELETE /api/todos/:id
+// @Summary      删除任务
+// @Description  删除指定的任务
+// @Tags         todos
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "任务 ID"
+// @Success      200  {object}  Response{data=map[string]string}
+// @Failure      400  {object}  Response
+// @Failure      404  {object}  Response
+// @Router       /todos/{id} [delete]
 func (h *TodoHandler) Delete(c *gin.Context) {
 	// 解析 ID
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
@@ -362,6 +413,14 @@ func (h *StatsHandler) RegisterRoutes(r *gin.RouterGroup) {
 
 // Get 获取统计信息
 // GET /api/stats
+// @Summary      获取统计信息
+// @Description  获取任务的统计信息，包括总数、完成数、待办数等
+// @Tags         stats
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  Response{data=service.TodoStats}
+// @Failure      500  {object}  Response
+// @Router       /stats [get]
 func (h *StatsHandler) Get(c *gin.Context) {
 	stats, err := h.service.GetStats()
 	if err != nil {

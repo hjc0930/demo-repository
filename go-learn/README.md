@@ -26,6 +26,10 @@ go-demo/
 │   ├── concurrency/       # 并发示例
 │   │   └── concurrency.go
 │   └── utils/             # 工具函数
+├── docs/                  # Swagger 文档（自动生成）
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
 ├── configs/               # 配置文件
 ├── go.mod                 # 模块定义
 └── go.sum                 # 依赖校验
@@ -48,7 +52,55 @@ go run ./cmd/api
 
 访问 http://localhost:8080 查看 API 文档
 
-### 3. 运行 CLI 工具
+### 3. Swagger API 文档
+
+项目集成了 Swagger 文档，启动服务后访问：
+
+```
+http://localhost:8080/swagger/index.html
+```
+
+#### Swagger 常用命令
+
+```bash
+# 安装 swag 命令行工具（首次使用）
+go install github.com/swaggo/swag/cmd/swag@latest
+
+# 生成/更新 Swagger 文档
+swag init -g cmd/api/main.go -o ./docs
+
+# 生成的文件：
+# - docs/docs.go      # Go 代码
+# - docs/swagger.json # JSON 格式规范
+# - docs/swagger.yaml # YAML 格式规范
+```
+
+#### 添加新的 API 文档注解
+
+在 handler 方法上添加注解：
+
+```go
+// @Summary      简短描述
+// @Description  详细描述
+// @Tags         分组标签
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "参数说明"
+// @Success      200  {object}  Response
+// @Failure      400  {object}  Response
+// @Router       /todos/{id} [get]
+func (h *TodoHandler) Get(c *gin.Context) {
+    // ...
+}
+```
+
+修改注解后记得重新生成文档：
+
+```bash
+swag init -g cmd/api/main.go -o ./docs
+```
+
+### 4. 运行 CLI 工具
 
 ```bash
 # 查看帮助
@@ -64,7 +116,7 @@ go run ./cmd/cli list
 go run ./cmd/cli interactive
 ```
 
-### 4. 运行测试
+### 5. 运行测试
 
 ```bash
 # 运行所有测试
@@ -104,10 +156,12 @@ go test -bench=. ./...
 
 ### 4. HTTP 服务 (`cmd/api/main.go`, `internal/handler/handler.go`)
 - 标准库 net/http
+- Gin 框架
 - 路由
 - 中间件
 - JSON 处理
 - 优雅关闭
+- Swagger API 文档
 
 ### 5. CLI 工具 (`cmd/cli/main.go`)
 - flag 包参数解析
