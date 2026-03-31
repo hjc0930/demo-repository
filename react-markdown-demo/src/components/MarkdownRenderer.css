@@ -1,0 +1,11 @@
+.markdown-body pre {
+  background-color: #0d1117 !important;
+}
+
+.markdown-body code {
+  background-color: rgba(175, 184, 193, 0.2);
+}
+
+.markdown-body pre code {
+  background-color: transparent !important;
+}
