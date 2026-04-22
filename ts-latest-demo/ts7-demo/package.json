@@ -1,0 +1,14 @@
+{
+  "name": "ts7-demo",
+  "version": "1.0.0",
+  "description": "A demo project using TypeScript latest stable",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
