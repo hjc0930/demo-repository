@@ -2,10 +2,18 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
+import { Input } from "antd";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [password, setPassword] = useState("");
 
+  return (
+    <Input.Password
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+  );
   return (
     <>
       <section id="center">
