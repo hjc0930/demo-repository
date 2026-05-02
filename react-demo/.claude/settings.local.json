@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(move \"C:\\\\Users\\\\PC\\\\Desktop\\\\workspace\\\\node-workspace\\\\react-demo\\\\src\\\\routes\\\\index.tsx\" \"C:\\\\Users\\\\PC\\\\Desktop\\\\workspace\\\\node-workspace\\\\react-demo\\\\src\\\\routes\\\\_app-layout\\\\index.tsx\")",
+      "Bash(move:*)",
+      "Bash(npx @tanstack/router-cli generate:*)",
+      "Bash(pnpm list:*)",
+      "Bash(node:*)",
+      "Bash(findstr:*)",
+      "Bash(tree:*)",
+      "Bash(pnpm add:*)",
+      "Bash(npx vite build:*)"
+    ]
+  }
+}
