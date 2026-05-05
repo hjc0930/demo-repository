@@ -335,6 +335,52 @@ http://localhost:8080/swagger/index.html
 make swagger
 ```
 
+## Go 依赖管理
+
+### go mod 常用命令
+
+```bash
+go mod init <module>          # 初始化新模块，生成 go.mod
+go mod tidy                   # 整理依赖：添加缺失的、移除未使用的
+go mod download               # 下载所有依赖到本地缓存
+go mod verify                 # 验证依赖的完整性（校验哈希）
+go mod graph                  # 查看依赖图（直接和间接依赖）
+go mod why <pkg>              # 查看为什么需要某个依赖
+go mod vendor                 # 将依赖复制到 vendor/ 目录
+```
+
+### 依赖管理
+
+```bash
+go get <pkg>@latest           # 添加或更新依赖到最新版本
+go get <pkg>@v1.2.3           # 安装指定版本
+go get <pkg>@<commit>         # 安装指定 commit
+
+go get -u <pkg>               # 更新依赖到最新的 minor/patch 版本
+go get -u=patch <pkg>         # 只更新 patch 版本
+
+go get -u ./...               # 更新所有直接和间接依赖（谨慎使用）
+```
+
+> **注意**: Go 1.21+ 中 `go get` 仅用于修改 `go.mod`，构建和运行应使用 `go build` / `go run`。
+
+### 清理与维护
+
+```bash
+go clean -modcache            # 清理模块缓存（~3GB+）
+go mod tidy                   # 推荐：定期执行以保持依赖整洁
+```
+
+### 开发 vs 生产环境
+
+| 场景 | 命令 | 说明 |
+|------|------|------|
+| 本地开发 | `go mod tidy` | 自动补全和清理依赖 |
+| 本地开发 | `go get <pkg>` | 添加新依赖 |
+| CI/CD | `go mod download` | 只下载依赖，不修改 go.mod |
+| CI/CD | `go mod verify` | 验证依赖未被篡改 |
+| 离线部署 | `go mod vendor` | 将依赖打入 vendor/ 用于离线构建 |
+
 ## Makefile 命令
 
 | 命令 | 说明 |

@@ -1,17 +1,78 @@
-# React + TypeScript + Vite
+# Todo List - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite + MUI
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Framework**: React 19 + TypeScript 6
+- **Build Tool**: Vite 8
+- **UI Library**: MUI (Material UI) 9
+- **Styling**: Emotion
+- **HTTP Client**: Axios
+- **Routing**: React Router 7
+- **Date Handling**: Day.js
+- **Linting**: ESLint
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+pnpm install          # Install dependencies
+pnpm dev              # Start dev server
+```
 
-## Expanding the ESLint configuration
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start dev server with HMR |
+| `pnpm build` | TypeScript type check + production build |
+| `pnpm preview` | Preview production build |
+| `pnpm lint` | Run ESLint |
+
+## pnpm Common Commands
+
+### Dependency Management
+
+```bash
+pnpm add <pkg>               # Add production dependency
+pnpm add -D <pkg>            # Add dev dependency
+pnpm remove <pkg>            # Remove dependency
+```
+
+### Dependency Updates
+
+```bash
+pnpm outdated                 # Check outdated dependencies
+pnpm update                   # Update within semver range
+pnpm update -i                # Interactive update
+pnpm update -i --latest       # Interactive update (including major versions)
+```
+
+### Inspect Dependencies
+
+```bash
+pnpm list                     # List dependencies
+pnpm why <pkg>                # Show why a package is installed
+pnpm info <pkg>               # View remote package info
+```
+
+### Cleanup & Reinstall
+
+```bash
+pnpm prune                    # Remove unused dependencies
+pnpm store prune              # Prune global store cache
+rm -rf node_modules && pnpm install  # Clean reinstall
+```
+
+### Production / CI
+
+```bash
+pnpm install --frozen-lockfile   # Strict lockfile install
+pnpm install --prod              # Production dependencies only
+pnpm prune --prod                # Remove devDependencies
+```
+
+## Expanding ESLint Configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
