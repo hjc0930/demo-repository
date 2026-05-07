@@ -1,19 +1,10 @@
-.PHONY: run build swagger test clean
-
-APP_NAME=todo-server
-BUILD_DIR=bin
+.PHONY: run build start
 
 run:
-	go run ./cmd/server
+	pnpm start:dev
 
 build:
-	CGO_ENABLED=0 go build -o $(BUILD_DIR)/$(APP_NAME) ./cmd/server
+	pnpm build
 
-swagger:
-	swag init -g cmd/server/main.go -o docs
-
-test:
-	go test ./... -v
-
-clean:
-	rm -rf $(BUILD_DIR)
+start:
+	node dist/main.js
