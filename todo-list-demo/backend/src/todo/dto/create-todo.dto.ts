@@ -1,30 +1,25 @@
-import { IsString, IsOptional, IsInt, IsDateString, MaxLength, MinLength } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsOptional, IsInt, IsEnum, IsDateString } from 'class-validator';
+import { TodoStatus } from '../enums/todo-status.enum';
+import { Priority } from '../enums/priority.enum';
 
 export class CreateTodoDto {
-  @ApiProperty()
   @IsString()
-  @MinLength(1)
-  @MaxLength(255)
   title: string;
 
-  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(2000)
   description?: string;
 
-  @ApiPropertyOptional({ enum: [0, 1, 2] })
   @IsOptional()
   @IsInt()
-  status?: number;
+  @IsEnum(TodoStatus)
+  status?: TodoStatus;
 
-  @ApiPropertyOptional({ enum: [0, 1, 2] })
   @IsOptional()
   @IsInt()
-  priority?: number;
+  @IsEnum(Priority)
+  priority?: Priority;
 
-  @ApiPropertyOptional()
   @IsOptional()
   @IsDateString()
   dueDate?: string;

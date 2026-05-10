@@ -12,56 +12,51 @@ import { BusinessException } from '../common/filters/business-exception.filter';
 export class TodoService {
   constructor(
     @InjectRepository(Todo)
-    private readonly todoRepo: Repository<Todo>,
+    private readonly todoRepository: Repository<Todo>,
   ) {}
 
   async list(query: QueryTodoDto): Promise<PageResult<Todo>> {
-    const qb = this.todoRepo.createQueryBuilder('todo');
+    const { status, page = 1, pageSize = 10 } = query;
 
-    if (query.status !== undefined) {
-      qb.andWhere('todo.status = :status', { status: query.status });
+    const where: Record<string, unknown> = {};
+    if (status !== undefined) {
+      where.status = status;
     }
 
-    const total = await qb.getCount();
+    const [list, total] = await this.todoRepository.findAndCount({
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      order: { createdAt: 'DESC' },
+    });
 
-    const list = await qb
-      .orderBy('todo.created_at', 'DESC')
-      .offset((query.page - 1) * query.pageSize)
-      .limit(query.pageSize)
-      .getMany();
-
-    return { list, total, page: query.page, pageSize: query.pageSize };
+    return new PageResult(list, total, page, pageSize);
   }
 
   async getById(id: number): Promise<Todo> {
-    const todo = await this.todoRepo.findOne({ where: { id } });
+    const todo = await this.todoRepository.findOne({ where: { id } });
     if (!todo) {
-      throw new BusinessException(404, 'Todo不存在');
+      throw new BusinessException(404, `Todo with id ${id} not found`);
     }
     return todo;
   }
 
   async create(dto: CreateTodoDto): Promise<Todo> {
-    const todo = this.todoRepo.create({
+    const todo = this.todoRepository.create({
       title: dto.title,
-      description: dto.description ?? '',
-      status: dto.status ?? 0,
-      priority: dto.priority ?? 1,
+      description: dto.description || '',
+      status: dto.status,
+      priority: dto.priority,
       dueDate: dto.dueDate ? new Date(dto.dueDate) : null,
     });
-
-    try {
-      return await this.todoRepo.save(todo);
-    } catch {
-      throw new BusinessException(500, '创建失败');
-    }
+    return this.todoRepository.save(todo);
   }
 
   async update(id: number, dto: UpdateTodoDto): Promise<Todo> {
     const todo = await this.getById(id);
 
-    if (dto.title !== undefined && dto.title.trim() !== '') {
-      todo.title = dto.title.trim();
+    if (dto.title !== undefined) {
+      todo.title = dto.title;
     }
     if (dto.description !== undefined) {
       todo.description = dto.description;
@@ -76,19 +71,13 @@ export class TodoService {
       todo.dueDate = dto.dueDate ? new Date(dto.dueDate) : null;
     }
 
-    try {
-      return await this.todoRepo.save(todo);
-    } catch {
-      throw new BusinessException(500, '更新失败');
-    }
+    return this.todoRepository.save(todo);
   }
 
   async delete(id: number): Promise<void> {
-    await this.getById(id);
-    try {
-      await this.todoRepo.softDelete(id);
-    } catch {
-      throw new BusinessException(500, '删除失败');
+    const result = await this.todoRepository.softDelete(id);
+    if (result.affected === 0) {
+      throw new BusinessException(404, `Todo with id ${id} not found`);
     }
   }
 }

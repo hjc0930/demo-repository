@@ -1,25 +1,23 @@
-import { IsOptional, IsInt, Min } from 'class-validator';
+import { IsOptional, IsInt, IsEnum, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { TodoStatus } from '../enums/todo-status.enum';
 
 export class QueryTodoDto {
-  @ApiPropertyOptional({ enum: [0, 1, 2] })
   @IsOptional()
-  @Type(() => Number)
   @IsInt()
-  status?: number;
-
-  @ApiPropertyOptional({ default: 1 })
-  @IsOptional()
+  @IsEnum(TodoStatus)
   @Type(() => Number)
+  status?: TodoStatus;
+
+  @IsOptional()
   @IsInt()
   @Min(1)
-  page: number = 1;
-
-  @ApiPropertyOptional({ default: 10 })
-  @IsOptional()
   @Type(() => Number)
+  page?: number = 1;
+
+  @IsOptional()
   @IsInt()
   @Min(1)
-  pageSize: number = 10;
+  @Type(() => Number)
+  pageSize?: number = 10;
 }

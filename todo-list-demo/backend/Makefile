@@ -1,10 +1,22 @@
-.PHONY: run build start
+.PHONY: run build test test-e2e docker-build docker-up docker-down
 
 run:
-	pnpm start:dev
+	npx nest start --watch
 
 build:
-	pnpm build
+	npx nest build
 
-start:
-	node dist/main.js
+test:
+	npx jest --forceExit
+
+test-e2e:
+	npx jest --config ./test/jest-e2e.json --forceExit
+
+docker-build:
+	docker compose build
+
+docker-up:
+	docker compose up -d
+
+docker-down:
+	docker compose down

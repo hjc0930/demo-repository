@@ -1,38 +1,33 @@
-import { ApiProperty } from '@nestjs/swagger';
-
-export class Result<T> {
-  @ApiProperty()
+export class Result<T = unknown> {
   code: number;
-
-  @ApiProperty()
   message: string;
+  data: T;
 
-  @ApiProperty({ required: false })
-  data?: T;
+  constructor(code: number, message: string, data: T) {
+    this.code = code;
+    this.message = message;
+    this.data = data;
+  }
+
+  static success<T>(data: T, message = 'success'): Result<T> {
+    return new Result<T>(200, message, data);
+  }
+
+  static error(code: number, message: string): Result<null> {
+    return new Result<null>(code, message, null);
+  }
 }
 
 export class PageResult<T> {
-  @ApiProperty()
   list: T[];
-
-  @ApiProperty()
   total: number;
-
-  @ApiProperty()
   page: number;
-
-  @ApiProperty()
   pageSize: number;
-}
 
-export function success<T>(data: T): Result<T> {
-  return { code: 200, message: 'success', data };
-}
-
-export function successNoData(): Result<void> {
-  return { code: 200, message: 'success' };
-}
-
-export function error(code: number, message: string): Result<void> {
-  return { code, message };
+  constructor(list: T[], total: number, page: number, pageSize: number) {
+    this.list = list;
+    this.total = total;
+    this.page = page;
+    this.pageSize = pageSize;
+  }
 }

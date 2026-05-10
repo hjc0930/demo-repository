@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { BusinessExceptionFilter } from './common/filters/business-exception.filter';
@@ -8,17 +8,17 @@ import { BusinessExceptionFilter } from './common/filters/business-exception.fil
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('SERVER_PORT', 8080);
+
   app.setGlobalPrefix('api/v1');
 
   app.enableCors({
-    origin: '*',
-    methods: 'GET,POST,PUT,DELETE,OPTIONS',
-    allowedHeaders: 'Origin,Content-Type,Authorization',
+    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
   });
 
-  app.useGlobalInterceptors(new TransformInterceptor());
-  app.useGlobalFilters(new BusinessExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -27,17 +27,12 @@ async function bootstrap() {
     }),
   );
 
-  const config = new DocumentBuilder()
-    .setTitle('Todo API')
-    .setDescription('Todo 管理系统 API')
-    .setVersion('1.0')
-    .addServer('http://localhost:8080', 'Local')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalFilters(new BusinessExceptionFilter());
 
-  const port = process.env.SERVER_PORT || 8080;
   await app.listen(port);
-  console.log(`Server starting on :${port}`);
+  console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`API base path: /api/v1`);
 }
+
 bootstrap();
