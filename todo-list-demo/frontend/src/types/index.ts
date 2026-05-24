@@ -1,1 +1,1 @@
-// TypeScript type definitions
+export type StatusType = "SUCCESS" | "ERROR" | "LOADING";

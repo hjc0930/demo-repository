@@ -28,7 +28,10 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Get()
-  @ApiOperation({ summary: '获取Todo列表', description: '分页获取Todo列表，支持按状态筛选' })
+  @ApiOperation({
+    summary: '获取Todo列表',
+    description: '分页获取Todo列表，支持按状态筛选',
+  })
   async list(@Query() query: QueryTodoDto): Promise<PageResult<Todo>> {
     return this.todoService.list(query);
   }
