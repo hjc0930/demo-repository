@@ -5,7 +5,14 @@
       "Bash(findstr:*)",
       "WebSearch",
       "WebFetch(domain:www.xiaomiev.com)",
-      "Bash(code *)"
+      "Bash(code *)",
+      "Bash(git push *)",
+      "Bash(git config *)",
+      "Bash(networksetup -getwebproxy Wi-Fi)",
+      "Bash(networksetup -getsecurewebproxy Wi-Fi)",
+      "Bash(scutil --proxy)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
