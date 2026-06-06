@@ -21,7 +21,15 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Get()
+<<<<<<< HEAD
   list(@Query() query: QueryTodoDto): Promise<PageResult<Todo>> {
+=======
+  @ApiOperation({
+    summary: '获取Todo列表',
+    description: '分页获取Todo列表，支持按状态筛选',
+  })
+  async list(@Query() query: QueryTodoDto): Promise<PageResult<Todo>> {
+>>>>>>> e62628788345ec2a39817ea1d1a9757cc56d9904
     return this.todoService.list(query);
   }
 
